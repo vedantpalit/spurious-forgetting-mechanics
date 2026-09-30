@@ -2,7 +2,10 @@
 
 # When Forgetting Is Not Catastrophic: On the Mechanics of Spurious Forgetting
 
-**Vedant Palit, Florent Draye, Nicolas Zucchet, Zhijing Jin, Bernhard Schölkopf**
+**Vedant Palit**<sup>1,2,3</sup>, **Florent Draye**<sup>1,4</sup>, **Nicolas Zucchet**<sup>5</sup>, **Zhijing Jin**<sup>1,2,3</sup>, **Bernhard Schölkopf**<sup>1,6</sup>
+
+<sup>1</sup>MPI for Intelligent Systems, Tübingen &nbsp; <sup>2</sup>University of Toronto & Vector Institute &nbsp; <sup>3</sup>EuroSafeAI<br>
+<sup>4</sup>Hector Foundation &nbsp; <sup>5</sup>Stanford University &nbsp; <sup>6</sup>ELLIS Institute Tübingen
 
 [![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b.svg)](#citation)
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776ab.svg?logo=python&logoColor=white)](https://www.python.org/)
@@ -17,17 +20,20 @@
 </p>
 
 <p align="center"><em>
-A model is pretrained on two non-overlapping sets of facts, A and B, and then finetuned on new facts.
-<b>Left:</b> finetuning on C, catastrophic forgetting: A and B decline slowly together.
-<b>Right:</b> finetuning on B′, spurious forgetting: accuracy on A collapses, partly recovers, then erodes, while B is retained.
+Changing only the finetuning data turns catastrophic forgetting into spurious forgetting.
+A transformer is pretrained on two non-overlapping sets of facts, A and B, then finetuned on new facts only, without replay.
+<b>Left:</b> new facts C overlap with both old sets, and recall of A and B declines slowly and steadily.
+<b>Right:</b> new facts B′ overlap only with B; recall of A collapses, recovers although A is never seen again, and later erodes.
 </em></p>
+
+**TL;DR.** Finetuning on new facts can produce forgetting that undoes itself: recall of the old facts collapses, recovers as training continues on the new facts alone, and only then erodes for good. The collapse is a shared, reversible shift that hides all old facts together; the erosion is a slow, fact-specific drift, and only the second is catastrophic. We identify the mechanism in a minimal associative memory and confirm it with interventions in a transformer trained on synthetic biographies and in OLMo 2 1B.
 
 This repository contains the code for all experiments in the paper, at three scales:
 
 | Setting | Framework | Code |
 | --- | --- | --- |
 | Minimal model (associative memory) | JAX | [`toy_final_iclr/`](toy_final_iclr) |
-| Transformer trained from scratch | JAX / Flax | [`src/`](src), [`scripts/`](scripts) |
+| Transformer on synthetic biographies | JAX / Flax | [`src/`](src), [`scripts/`](scripts) |
 | Pretrained language model (OLMo 2 1B) | PyTorch | [`llm/`](llm), [`llm_real/`](llm_real) |
 
 ## Installation
@@ -60,7 +66,7 @@ python plot_paper_base.py
 
 ## Transformer
 
-Pretrain on the two sets of old facts, then finetune on new facts whose answers lie in one region (`disjoint`), or in both regions for comparison (`all_values`):
+Pretrain on the two sets of old facts, A and B, then finetune on new facts whose answers lie only in the region of B (`disjoint`, B′ in Figure 1), or in both regions for comparison (`all_values`, C in Figure 1):
 
 ```bash
 python -m src.experiments.mlpfree_pretrain
@@ -70,7 +76,7 @@ python -m src.experiments.mlpfree_injection --pretrain_step 16000 --inject_seed 
 
 ## Pretrained language model
 
-Select the old facts OLMo 2 1B knows, build the new facts, and finetune:
+Select the CounterFact facts OLMo 2 1B already knows (the old facts), build the synthetic new facts, and finetune:
 
 ```bash
 .venv-llm/bin/python -m llm.gate_a_set --out llm/out/gate.json
@@ -80,7 +86,7 @@ Select the old facts OLMo 2 1B knows, build the new facts, and finetune:
 
 ## Citation
 
-If you find this work useful, please cite:
+For questions, contact Vedant Palit (vedant.palit@tuebingen.mpg.de). If you find this work useful, please cite:
 
 ```bibtex
 @article{palit2026forgetting,
