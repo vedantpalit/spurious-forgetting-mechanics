@@ -163,9 +163,9 @@ def metrics_from(z, correct_ids, x_ids):
 
 def analyze(arm, pretrain_step, seed, condition, checkpoint_dir, total_steps,
             freeze_arm=None, lr_mult=1.0, inject_batch=256, dense=False, fig=False):
-    """`freeze_arm` reads the freeze-ablation checkpoints (toy/PLAN.md 0.13) instead of the
-    unfrozen baseline. Phase, key_extra and filename prefix all switch together, since the
-    key is what makes those distinct checkpoints rather than a naming convention."""
+    """`freeze_arm` reads the freeze-ablation checkpoints instead of the unfrozen baseline.
+    Phase, key_extra and filename prefix all switch together, since the key is what makes
+    those distinct checkpoints rather than a naming convention."""
     spec = dict(ARMS[arm])
     if freeze_arm is not None:
         if arm != "mlp_free":
@@ -174,7 +174,7 @@ def analyze(arm, pretrain_step, seed, condition, checkpoint_dir, total_steps,
         spec["prefix"] = f"mlpfreefreezeinject-{freeze_arm}"
         spec["key_extra"] = {**spec["key_extra"], "freeze_arm": freeze_arm}
     cfg = _cfg_for(arm, pretrain_step, seed, condition, total_steps)
-    # Dose conditions (PLAN.md 0.18) differ only in the inject config, which is already
+    # Dose conditions differ only in the inject config, which is already
     # hashed, so lr_mult=1/batch=256 reproduces the baseline key exactly.
     cfg = replace(cfg, inject=replace(cfg.inject, batch_size=inject_batch,
                   **({'checkpoint_steps': DENSE_SCHEDULE} if dense else {}),

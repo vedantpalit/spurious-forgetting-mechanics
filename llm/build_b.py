@@ -1,4 +1,4 @@
-"""Build population B: a FACT TABLE of invented people over real values (llm/PLAN.md §5).
+"""Build population B: a FACT TABLE of invented people over real values.
 
 Not a corpus. `inject.py` renders documents from this table fresh at every step, because a fixed
 corpus is memorisable: the first B wrote one document per person with one phrasing per fact,

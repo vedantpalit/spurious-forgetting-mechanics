@@ -1,10 +1,10 @@
 """MLP-free arm: pretrain on A union D at the 8-layer/512-dim scale.
 
-This run IS the feasibility gate (docs/mlp_free_ablation_plan.md SS6). There is no separate,
-cheaper gate: the gate exists to catch a load infeasibility before an LR grid discovers it,
-and load is a property of the population the model actually pretrains on -- so the gate is
-defined on the real pretrain configuration (A union D at 2000/2000, real post-filter pools,
-real X/Y partition), not on a lighter A-alone proxy.
+This run IS the feasibility gate. There is no separate, cheaper gate: the gate exists to catch
+a load infeasibility before an LR grid discovers it, and load is a property of the population
+the model actually pretrains on -- so the gate is defined on the real pretrain configuration (A
+union D at 2000/2000, real post-filter pools, real X/Y partition), not on a lighter A-alone
+proxy.
 
 Matched to scale8_pretrain.py on everything except the MLP removal: same LR (5e-4), batch
 (256), gate target (0.90 on BOTH dataA and ballast), step budget (16,000), and dense
@@ -13,10 +13,10 @@ loudly: mlp_coefficient is 0 (so the config cannot claim an MLP the model lacks)
 carries arm="mlp_free" (so the arms cannot overwrite each other's checkpoints), and
 verify_no_mlp proves from the constructed weights that no MLP tensors exist.
 
-Review point (SS11): the accuracy curve at the FIRST checkpoint, step 6000. If dataA accuracy
-is flat and far from ceiling there, stop rather than burning the remaining 10,000 steps, and
-run mlpfree_diagnostics.py -- an LR-independent plateau is a structural limit to be reported,
-not undertuning to be tuned away.
+Review point: the accuracy curve at the FIRST checkpoint, step 6000. If dataA accuracy is flat
+and far from ceiling there, stop rather than burning the remaining 10,000 steps, and run
+mlpfree_diagnostics.py -- an LR-independent plateau is a structural limit to be reported, not
+undertuning to be tuned away.
 
 Run:
   uv run python -m src.experiments.mlpfree_pretrain
@@ -47,7 +47,7 @@ CHECKPOINT_STEPS = list(range(6000, 16001, 1000))
 # Extra *probe-only* steps: the gate probe (per-attribute accuracy + slope) runs at these
 # too, but no state is written. Without points before 6000 there is no way to tell "flat"
 # from "still climbing slowly" AT the step-6000 review point, and those are different
-# readings -- slow-but-climbing is not reading 3.
+# readings -- slow-but-climbing is not a structural plateau.
 PROBE_ONLY_STEPS = [250, 500, 1000, 2000, 3000, 4000, 5000]
 
 
@@ -82,7 +82,7 @@ def main():
           f"occupancy={occ:.4%}\n")
 
     # Logged whether the gate passes or fails -- the ratio is the comparison the writeup
-    # has to make either way (plan SS6.1).
+    # has to make either way.
     halves = get_partition(cfg, pop)
     load_rows, _load_summary = print_load_ratio(
         pop, halves, cfg.num_a, cfg.num_ballast, cfg.data.support_size)
@@ -142,9 +142,9 @@ def main():
         print("GATE FAILED. Do not proceed to injection, and do not widen an LR grid. Run "
               "src.experiments.mlpfree_diagnostics next: load ratio (already printed above), "
               "key span/conditioning, capacity, and only then learning rate. An "
-              "LR-independent plateau is reading 3, which is a result, not an obstacle -- "
-              "but check the slope printed in the probes above first: a curve that still has "
-              "slope is not reading 3.")
+              "LR-independent plateau is a structural limit, which is a result, not an "
+              "obstacle -- but check the slope printed in the probes above first: a curve "
+              "that still has slope is not a structural limit.")
 
     if cfg.checkpoint_dir and cfg.pretrain.total_steps not in checkpoints_saved:
         ckpt_fn(cfg.pretrain.total_steps, state)

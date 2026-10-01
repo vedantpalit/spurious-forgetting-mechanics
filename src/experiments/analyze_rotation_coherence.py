@@ -1,4 +1,4 @@
-"""Do the per-block OV pieces rotate together, or independently? (FINDINGS §3.21, step 2 follow-up)
+"""Do the per-block OV pieces rotate together, or independently? (step 2 follow-up)
 
 Reads `weight_patch/*.npz` only -- no checkpoints, no forward passes.
 
@@ -26,7 +26,7 @@ THREE READINGS, all reported:
   3. Alignment of the DISPLACEMENTS D_j = P_j(200) - P_j(50). A common additive shift shows as
      mutually aligned D_j; independent motion shows as mutually orthogonal ones.
 
-Per attribute throughout, then averaged, because delta itself is per-attribute (§3.21).
+Per attribute throughout, then averaged, because delta itself is per-attribute.
 
 Run: uv run python -m src.experiments.analyze_rotation_coherence
 """

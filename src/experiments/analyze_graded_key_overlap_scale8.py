@@ -1,6 +1,6 @@
 """Raw first-token accuracy by shared_count, on the 8-layer STANDARD arm (with MLP).
 
-The graded name-overlap dose-response (FINDINGS 3.11 and its accuracy follow-up) was measured
+The graded name-overlap dose-response (and its accuracy follow-up) was measured
 on the 4-layer pilot -- ModelConfig defaults 256/4/4, pretrain 8000, phase "inject". This is the
 same analysis against the 8-layer standard arm: 512/8/8, mlp_coefficient 4, pretrain 16000,
 phase "scale8inject".

@@ -11,7 +11,7 @@ Two populations analyzed at every dense checkpoint:
     shows a graded response and ballast does not, the effect is flowing through the
     specific tokens celebrities hold, not something diffuse.
 
-overlap_with_A (§3.11's intrinsic-crowding control, identical formula, computed against
+overlap_with_A (the intrinsic-crowding control, identical formula, computed against
 ALL of A -- celebrities and remainder together, self-excluded) is included because a
 randomly-chosen celebrity subset means an individual's chance of sharing with it is
 proportional to how common their name parts are in A generally; this separates "shares with
@@ -20,7 +20,7 @@ celebrities specifically" from "has common name parts in general."
 Reports 95% CIs (mean +/- 1.96*SE, SE = std/sqrt(n)) alongside every group mean, not just
 point estimates -- group 3 (n=119) has SE ~ 0.052 on the baseline population std, so
 detectable between-group gaps are on the order of 0.1, the same magnitude as effects this
-project has trusted before (§3.12's candidate 2, 0.05-0.15) but not enormous.
+project has trusted before (0.05-0.15) but not enormous.
 """
 import os
 from dataclasses import replace
@@ -44,7 +44,7 @@ PARTS = ("first", "middle", "last")
 
 
 def overlap_with_pool(names_target, names_pool):
-    """mult_j formula (§3.11): for each target row, how many rows in the pool share each
+    """mult_j formula: for each target row, how many rows in the pool share each
     name part (raw count -- self-exclusion, when the target is itself part of the pool, is
     the caller's responsibility; see the `- 3` in overlap_with_a below).
     """
@@ -134,7 +134,7 @@ def main():
 
     # overlap_with_A: against ALL of A (celeb+remainder), self-excluded for remainder (its
     # own name is a row in names_a); not self-excluded for ballast/C (they aren't rows in
-    # names_a at all, so no self-match to subtract). §3.11's formula throughout.
+    # names_a at all, so no self-match to subtract). The same formula throughout.
     overlap_with_a_remainder = overlap_with_pool(names_remainder, names_a).sum(axis=1) - 3
     overlap_with_a_ballast = overlap_with_pool(names_ballast, names_a).sum(axis=1)
 

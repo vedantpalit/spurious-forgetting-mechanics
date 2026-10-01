@@ -11,9 +11,9 @@ pre-norms do.
 The gate matters here more than usual. The prediction under test is about INJECTION (no
 recovery without the final norm); it is only readable if this arm pretrains to the same
 ceiling as the standard arm. If dataA or ballast fails 0.90, stop: the arm is then
-uninformative (CLAUDE.md SS4, the freeze-arm rule applied to an architecture arm), and the
-right next step is an LR probe for this arm, not injection. The per-checkpoint accuracy
-line is printed so a slow-but-climbing curve can be told from a plateau.
+uninformative (the freeze-arm rule applied to an architecture arm), and the right next step is
+an LR probe for this arm, not injection. The per-checkpoint accuracy line is printed so a
+slow-but-climbing curve can be told from a plateau.
 
 Run:
   uv run python -m src.experiments.nofinalnorm_pretrain

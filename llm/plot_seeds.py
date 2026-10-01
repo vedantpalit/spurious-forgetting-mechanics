@@ -5,7 +5,7 @@ spines, no grid, dpi 200, and vertical dotted rules dividing (i) the crash, (ii)
 (iii) the erosion, with the numerals in the headroom above y=1.
 
 A IS THE NON-COPY STRATUM. 62% of the gated set is answerable by copying the answer out of the
-prompt (PLAN 7.1); plotting the undifferentiated set dilutes a 0.87 -> 0.18 crash into a much
+prompt; plotting the undifferentiated set dilutes a 0.87 -> 0.18 crash into a much
 shallower one. Copying is an in-context operation, not parametric recall, so it is a different
 behaviour rather than a weaker version of the same one. --stratum ALL overrides.
 

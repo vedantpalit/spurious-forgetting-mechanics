@@ -118,8 +118,8 @@ class InjectConfig:
     opt: OptConfig = field(default_factory=lambda: OptConfig(
         peak_lr=-1.0, schedule="constant"))
     # Deliberately-graded key (name-part) overlap between B and A, engineered rather than
-    # left to chance (FINDINGS.md §3.11 found chance-level overlap already predicts damage
-    # robustly, but concentrated ~75% of A at full 3-part overlap -- not a dose-response).
+    # left to chance (chance-level overlap already predicts damage robustly, but concentrates
+    # ~75% of A at full 3-part overlap -- not a dose-response).
     # When True, build() overwrites only B's name assignment (assign_graded_b_names);
     # A/ballast/C and all value assignment are untouched, so the existing pretrained
     # checkpoint remains valid. Lives here, not on KIConfig, so it enters the injection
@@ -439,7 +439,7 @@ def assign_graded_b_names(pop: BiographyPopulation, ids_a: np.ndarray, ids_b: np
                            rng: np.random.Generator):
     """Overwrite B's (first, middle, last) name assignment so A's shared-part count with B
     is a real, engineered distribution across {0,1,2,3} rather than the chance
-    distribution's ~75% concentration at 3 (FINDINGS.md §3.11).
+    distribution's ~75% concentration at 3.
 
     For each part independently, a "used-in-B" token subset is greedily built (random
     draw order, so no systematic bias toward low-index tokens) until it covers at least
@@ -502,8 +502,8 @@ def weight_norms(params) -> dict:
 
 
 def population_baseline_nats(pop: BiographyPopulation) -> float:
-    """No-knowledge baseline: mean log of post-filter pool sizes (CLAUDE.md §4, 4.969 nats
-    on the current pools). Computed from `pop`, not hardcoded, so it tracks the actual data."""
+    """No-knowledge baseline: mean log of post-filter pool sizes (4.969 nats on the
+    current pools). Computed from `pop`, not hardcoded, so it tracks the actual data."""
     return float(np.mean(np.log(pop.num_values_per_attr)))
 
 
@@ -550,7 +550,7 @@ def rank_and_loss_within(row_logits: np.ndarray, correct_token: np.ndarray, cand
     """1-indexed rank (1=top) AND cross-entropy loss of the correct token, both computed
     with the softmax restricted to `candidate_ids` — not the full vocabulary. This is
     what separates suppression (argmax dies, rank/loss within the own half do not) from
-    real corruption (both die together). See FINDINGS.md §2.5/§3.
+    real corruption (both die together).
     """
     cand_logits = row_logits[:, candidate_ids]
     correct_logit = row_logits[np.arange(len(correct_token)), correct_token]
@@ -603,19 +603,19 @@ def evaluate_and_log(state, eval_sets, cfg, gstep, extra=None, baseline=None, l_
     confidently WRONG, i.e. worse than a uniform guess over the value pool — the natural
     read for dataC, which neither phase ever trains on). When `l_pretrained` is also given
     (a dict of each dataset's attribute_loss at this run's own starting point), additionally
-    logs `{name}/retention` = (baseline - current) / (baseline - l_pretrained[name]) per
-    CLAUDE.md §4. Retention is undefined (logged as NaN) wherever the denominator is
-    near zero — chiefly B and C, which have nothing to "retain" going into injection.
+    logs `{name}/retention` = (baseline - current) / (baseline - l_pretrained[name]).
+    Retention is undefined (logged as NaN) wherever the denominator is near zero — chiefly
+    B and C, which have nothing to "retain" going into injection.
 
     `rank_ctx` (a dict with keys "x_ids", "y_ids", "own_halves") additionally logs, for
-    every dataset with an entry in "own_halves", the PRIMARY metric per FINDINGS.md:
+    every dataset with an entry in "own_halves", the PRIMARY metric:
     `{name}/rank_own_mean`, `{name}/rank_own_top1`, `{name}/attribute_loss_own`, and — once
     `l_pretrained_own` fixes this run's own starting point — `{name}/retention_own`. This
     is `retention` restricted to a softmax over the population's OWN value half only, which
     is unaffected by cross-half output-marginal suppression; `{name}/suppression_gap` =
     `retention_own - retention` is logged alongside as the size of that artifact directly.
     Both `retention` (full-vocab) and `retention_own` are kept — never replace one metric
-    with another; report both, per CLAUDE.md's own rule.
+    with another; report both.
     """
     forward = lambda x: eval_forward(state.apply_fn, state.params, x)
     metrics = {}
@@ -739,7 +739,7 @@ def train_loop(state, dataset, steps, batch_size, eval_sets, cfg, *, step0=0,
     `track_retention`: additionally fixes `L_pretrained` from THIS call's own step-0 eval
     (not from random init) and logs `retention` from then on — only meaningful when this
     loop is continuing from an already-trained checkpoint, i.e. injection, not pretraining.
-    `rank_ctx`: enables `retention_own` (the primary metric per FINDINGS.md) the same way —
+    `rank_ctx`: enables `retention_own` (the primary metric) the same way —
     fixed from this call's own step-0 own-half loss, not random init.
     """
     metrics = evaluate_and_log(state, eval_sets, cfg, step0, extra=weight_norms(state.params),
@@ -1024,8 +1024,8 @@ def phase_inject(cfg: KIConfig, built=None):
 
     baseline = population_baseline_nats(pop)
 
-    # rank_ctx: enables retention_own (the primary metric per FINDINGS.md), logged for
-    # every population whose own half is unambiguous. "partial" gives mixed X/Y per person
+    # rank_ctx: enables retention_own (the primary metric), logged for every population
+    # whose own half is unambiguous. "partial" gives mixed X/Y per person
     # and is not handled by this population-level own_half — skipped there, not guessed at.
     halves = get_partition(cfg, pop)
     x_ids = [pop.attr_first_token_ids[k][halves[k][0]] for k in range(NUM_ATTRIBUTES)]

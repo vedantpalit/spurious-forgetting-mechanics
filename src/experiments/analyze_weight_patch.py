@@ -1,10 +1,9 @@
-"""Which weights produce delta, and which produce the part that recovers? (§3.21, steps 1-2)
+"""Which weights produce delta, and which produce the part that recovers? (steps 1-2)
 
 Splice named parameters from the step-0 checkpoint into the patched checkpoint, run forward, and
 remeasure delta. Nothing is trained, so B's acquisition is untouched by construction -- the
-confound that makes freeze arms unreadable (CLAUDE.md §5 carve-out, FINDINGS §2.6). Unlike
-`analyze_pattern_patch`, this needs no interception at all: a spliced params tree is just another
-params tree.
+confound that makes freeze arms unreadable. Unlike `analyze_pattern_patch`, this needs no
+interception at all: a spliced params tree is just another params tree.
 
   --patch qk        query and key kernels, per block
   --patch ov        value and out projections, per block

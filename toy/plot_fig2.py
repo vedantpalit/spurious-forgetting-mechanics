@@ -11,7 +11,7 @@ Then one panel per ingredient, the model against its removal, in the schematic's
 Old facts only; mean probability of the correct value; mean over
 seeds, band +/- 1 sd. The new facts are learned in every arm (gate-matched).
 
-Notation as in paper.tex (alpha for the shared share of the key, e_i, W_1, W_2); the data files
+Notation as in the paper (alpha for the shared share of the key, e_i, W_1, W_2); the data files
 keep the name beta. Style as plot_fig3.py: exactly 397 pt wide, serif, no minor ticks.
 
 Run: JAX_PLATFORMS=cpu uv run python plot_fig2.py

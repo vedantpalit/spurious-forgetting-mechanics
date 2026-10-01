@@ -4,7 +4,7 @@ Matches `a_vs_b_zucchet_style.png`: navy A, crimson B, a standard-error band on 
 phase markers with rotated italic labels, boxed spines, no grid.
 
 A IS THE NON-COPY STRATUM. 62% of the gated set is answerable by copying the answer out of the
-prompt (PLAN 7.1), and plotting the undifferentiated set would dilute a 0.87 -> 0.19 crash into
+prompt, and plotting the undifferentiated set would dilute a 0.87 -> 0.19 crash into
 a much shallower one. The copy stratum is a different behaviour, not a weaker version of the
 same one, so it is not averaged in.
 
@@ -52,7 +52,7 @@ def main():
 
     d = json.load(open(a.run, encoding="utf-8"))
     if not d.get("tokens_per_step"):
-        raise SystemExit(f"{a.run} predates fp32 master weights and is voided (PLAN 6.1)")
+        raise SystemExit(f"{a.run} predates fp32 master weights and is voided")
     c = d["curve"]
     step = [x["step"] for x in c]
     acc = [x["A/noncopy/acc"] for x in c]

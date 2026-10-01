@@ -1,4 +1,4 @@
-"""The recovery-level law, refitted on the minimal model (k1 THEORY section 7, eq. 9).
+"""The recovery-level law, refitted on the minimal model.
 
 Claim: the shift's between-half content <s, w> is withdrawn to a level K that does not
 depend on beta, n_B or the rate (the balance), while its peak carries all the variation; so

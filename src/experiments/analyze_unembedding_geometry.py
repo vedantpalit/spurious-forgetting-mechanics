@@ -1,4 +1,4 @@
-"""Do the unembedding rows for A's values move during injection? (FINDINGS §3.21, measurement 1)
+"""Do the unembedding rows for A's values move during injection? (measurement 1)
 
 Descriptive. Forward passes and parameter reads on existing MLP-free p16000 checkpoints; nothing
 is trained and no mechanism is asserted beyond what the numbers show.

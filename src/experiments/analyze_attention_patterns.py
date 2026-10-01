@@ -1,6 +1,6 @@
 """Do attention PATTERNS move during the recovery window? The finer test.
 
-WHY THE EXISTING EVIDENCE IS TOO WEAK FOR THE CONCLUSION IT CARRIES. toy/PLAN.md §0.15 rules
+WHY THE EXISTING EVIDENCE IS TOO WEAK FOR THE CONCLUSION IT CARRIES. The earlier analysis ruled
 routing out on `attention_to_name_mass`, which is ONE SCALAR PER LAYER: the total mass landing
 on name tokens, averaged over heads, people and attributes. A pattern can reorganise
 substantially without moving that aggregate at all -- mass can shift between name tokens, or
@@ -41,7 +41,7 @@ and `p0` its step-0 counterpart. Reported per (layer, head):
     reported as ||c|| and rms(||v_a||), plus the common FRACTION of the movement's energy.
 
 WHY THE SPLIT IS THE DECISIVE PART. Recovery lives entirely in the constant-across-individuals
-logit component (FINDINGS §3.16). For routing to be the mechanism behind it, pattern change
+logit component. For routing to be the mechanism behind it, pattern change
 would have to be roughly UNIFORM across individuals. Individual-specific pattern movement
 lands in the varying component and cannot explain the constant one, however large it is.
 
@@ -51,7 +51,7 @@ TWO READINGS, both worth having:
     specifically.
   * Patterns move substantially in a way the mass summary hid, ESPECIALLY if the movement is
     common across individuals -> the routing hypothesis is live, the QK/VO arm becomes the
-    priority, and §0.15's conclusion needs revising.
+    priority, and the earlier conclusion needs revising.
 
 Run:
   uv run python -m src.experiments.analyze_attention_patterns \\

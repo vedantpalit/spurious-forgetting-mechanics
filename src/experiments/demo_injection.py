@@ -2,13 +2,13 @@
 
 Both arms use --inject.condition=disjoint, asserted below, not left as a free choice.
 Reasoning: A must play the OPPOSITE-half role relative to B in BOTH arms for its own
-trough to be the dramatic, "unmissable" one -- per FINDINGS.md's already-established
-crossover numbers (§3.2), A's own trough is ~0.79-0.792 as the SAME-half population
-under high_overlap (B draws from A's own half), vs. ~0.154-0.158 as the OPPOSITE-half
-population under disjoint (B draws from the half A never touches). "B fine-tuned in on
-A's half" (the with-ballast arm's original phrasing) is literally high_overlap and would
-give A only the mild dip -- corrected per direct user confirmation to disjoint instead,
-so both arms show the same structural relationship and are a fair same-shape comparison.
+trough to be the dramatic, "unmissable" one -- per the already-established crossover
+numbers, A's own trough is ~0.79-0.792 as the SAME-half population under high_overlap
+(B draws from A's own half), vs. ~0.154-0.158 as the OPPOSITE-half population under
+disjoint (B draws from the half A never touches). "B fine-tuned in on A's half" (the
+with-ballast arm's original phrasing) is literally high_overlap and would give A only the
+mild dip -- so disjoint is used instead, and both arms show the same structural
+relationship and are a fair same-shape comparison.
 
 Arm is inferred from cfg.num_ballast (0 -> without_ballast, >0 -> with_ballast), the same
 convention demo_pretrain_no_ballast.py uses -- no new KIConfig field needed.

@@ -1,4 +1,4 @@
-"""One table for the whole LR sweep (llm/PLAN.md §8).
+"""One table for the whole LR sweep.
 
 Reads every llm/out/inject_lr*.json and reports each arm against the pre-registered readings.
 The headline is A's NONCOPY stratum; `copy` is shown beside it because in-context copying may
@@ -33,7 +33,7 @@ def main():
     runs, skipped = [], []
     for path in sorted(glob.glob(a.glob)):
         d = json.load(open(path, encoding="utf-8"))
-        # Runs predating fp32 master weights measured rounding, not learning (PLAN 6.1). They
+        # Runs predating fp32 master weights measured rounding, not learning. They
         # have no tokens_per_step field, and mixing them into this table would be silent.
         if not d.get("tokens_per_step"):
             skipped.append(path)
@@ -56,7 +56,7 @@ def main():
         # Not the global minimum: these curves crash, recover partially, then decline for
         # thousands of steps, so the global minimum is the final step and a naive reading
         # reports zero recovery everywhere. And not simply the largest rebound either -- every
-        # arm RISES ~0.05 before it crashes (format priming, PLAN 5.1), and at 3e-6 that rise
+        # arm RISES ~0.05 before it crashes (format priming), and at 3e-6 that rise
         # outsizes the real recovery, which made the rule pick step 0. A trough must therefore
         # first be a crash: at least CRASH below the running maximum up to that point.
         CRASH = 0.05

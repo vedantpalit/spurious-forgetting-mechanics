@@ -41,13 +41,13 @@ PRETRAIN_STEPS = list(range(6000, 16001, 1000))
 CONDITIONS = ["high_overlap", "disjoint"]
 SEEDS = [0, 1, 2, 3, 4]
 
-# Pretraining checkpoints that were actually injected from, per FINDINGS.md §3.14's
-# duration sweep. The odd thousands (7000, 9000, ...) have pretrain checkpoints but were
-# never used as injection starting points, so their absence below is "never run", not a
-# gap -- distinguished in the summary so a reader does not misread 60-of-110 as patchy.
+# Pretraining checkpoints that were actually injected from in the duration sweep. The odd
+# thousands (7000, 9000, ...) have pretrain checkpoints but were never used as injection
+# starting points, so their absence below is "never run", not a gap -- distinguished in the
+# summary so a reader does not misread 60-of-110 as patchy.
 INJECTED_FROM_STEPS = [6000, 8000, 10000, 12000, 14000, 16000]
 
-# What the MLP-free comparison actually needs (plan §10 item 4).
+# What the MLP-free comparison actually needs.
 WANTED_PRETRAIN_STEPS = [6000, 16000]
 WANTED_CONDITION = "disjoint"
 

@@ -3,8 +3,8 @@ so the three read as one connected story rather than three separate metrics on t
 populations:
 
   Plot 1 -- A in `disjoint` (A plays the opposite-half role in this condition -- the same
-            structural role ballast played in high_overlap, confirmed symmetric in FINDINGS
-            Sec 3.2). Whole-population decomposition: raw first_acc vs. rank_own_top1.
+            structural role ballast played in high_overlap, confirmed symmetric). Whole-population
+            decomposition: raw first_acc vs. rank_own_top1.
   Plot 2 -- A in `high_overlap` (A's own-half role, the mild-suppression contrast case),
             split by shared_count, in the SAME top1_rate units as Plot 1's rank_own_top1 line.
   Plot 3 -- A in `disjoint` (same condition as Plot 1), split by shared_count, in the same

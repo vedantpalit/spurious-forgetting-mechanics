@@ -1,4 +1,4 @@
-"""GATE: can OLMo 2 1B answer enough CounterFact facts to form population A? (llm/PLAN.md §3.1)
+"""GATE: can OLMo 2 1B answer enough CounterFact facts to form population A?
 
 Forward passes only. No training, no gradients. This runs before anything else, and if it fails
 the answer is a different fact source, not a training run.
@@ -14,7 +14,7 @@ WHAT IT DECIDES
     3-of-3 (100%), which does not filter luck at all;
   * RELATION CONCENTRATION -- if 80% of the surviving set is one relation, the later curve
     measures that relation rather than factual recall generally;
-  * the answer-pool size per relation, which sets the rank cap used later (§7).
+  * the answer-pool size per relation, which sets the rank cap used later.
 
 VERDICT
   |A| >= 300      proceed. 300 gives a binomial SE of ~2.6% at 50% accuracy, and the small
@@ -22,12 +22,12 @@ VERDICT
   |A| <  300      STOP. Fallback ladder: the original ROME CounterFact JSON (which has real
                   paraphrase_prompts), then a different source, then a larger model.
 
-FORMAT DISCIPLINE (§4). Prompts are fed VERBATIM as cloze continuations -- no system prompt, no
+FORMAT DISCIPLINE. Prompts are fed VERBATIM as cloze continuations -- no system prompt, no
 instruction wrapper, no chat template, no added BOS beyond the tokenizer's own. This is the same
 operation the model performed throughout pretraining on the same kind of string, and it is what
 keeps a later crash from being attributable to a format shift.
 
-FIRST-TOKEN SCORING (§7, decided). Correct means the argmax next token equals the first token of
+FIRST-TOKEN SCORING. Correct means the argmax next token equals the first token of
 the target rendered WITH ITS LEADING SPACE -- the prompts end mid-sentence ("... is"), so the
 answer's first token is " Paris", not "Paris". Getting this wrong silently scores everything as
 incorrect, so it is asserted at startup rather than assumed.
@@ -45,7 +45,7 @@ import torch
 from datasets import load_dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-MODEL_ID = "allenai/OLMo-2-0425-1B"          # base; NOT -SFT / -DPO / -Instruct (§1)
+MODEL_ID = "allenai/OLMo-2-0425-1B"          # base; NOT -SFT / -DPO / -Instruct
 DATASET_ID = "NeelNanda/counterfact-tracing"
 MIN_TEMPLATES = 3
 MIN_FRACTION = 2 / 3      # see the CRITERION note in main()
@@ -128,7 +128,7 @@ def main():
     print(f"  template-count distribution: {dict(sorted(Counter(tmpl_counts.values()).items()))}")
     if not usable:
         print("\nGATE FAILED: pooling produced no relation with enough templates. The paraphrase "
-              "assumption in PLAN.md §3 does not hold; fall back to the ROME CounterFact JSON.")
+              "assumption does not hold; fall back to the ROME CounterFact JSON.")
         return
 
     # --- score every fact under every template of its relation -----------------------------
@@ -168,7 +168,7 @@ def main():
         if p == want[i]:
             n_correct[i] += 1
 
-    # CRITERION. An ABSOLUTE ">= 3 correct" is not what PLAN.md 3 asks for. Template counts
+    # CRITERION. Not an ABSOLUTE ">= 3 correct". Template counts
     # run 3 to 16, so 3-of-3 (100%) and 3-of-16 (19%) would both qualify, and 3-of-16 does
     # not filter luck -- which is the entire point of requiring paraphrases. The criterion is
     # therefore RELATIVE: correct on at least MIN_TEMPLATES templates AND on at least
@@ -209,14 +209,14 @@ def main():
               f"partly measure that relation rather than factual recall generally. Propose "
               f"capping per-relation contributions before proceeding.")
 
-    # --- answer pools, which set the rank cap (§7) ------------------------------------------
+    # --- answer pools, which set the rank cap -----------------------------------------------
     pools = defaultdict(set)
     for r in A:
         pools[r["relation_id"]].add(r["target_true"].strip())
     sizes = sorted(len(v) for v in pools.values())
     print(f"\nanswer-pool sizes per relation: min {sizes[0] if sizes else 0}, "
           f"median {sizes[len(sizes)//2] if sizes else 0}, max {sizes[-1] if sizes else 0}")
-    print("  (the rank cap in PLAN.md §7 is set from these, not chosen in advance)")
+    print("  (the rank cap is set from these, not chosen in advance)")
 
     if a.limit:
         scale = ds_full_rows / max(len(ds), 1)

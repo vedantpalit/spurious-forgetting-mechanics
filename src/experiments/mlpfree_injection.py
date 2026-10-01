@@ -7,8 +7,8 @@ Mirrors scale8_injection.py exactly except for the MLP removal and two deliberat
     truncation as a null. The dense schedule keeps scale8's first-1200 points unchanged
     (0,10,25,50,100,200,400,600,800,1000,1200) so the like-for-like window is
     point-for-point identical, then extends (1600,2000,2400,3000).
-  * `disjoint` only. That is where the dissociation is clean at this scale (FINDINGS.md
-    §3.14); high_overlap would be a sweep, which this task's scope excludes.
+  * `disjoint` only. That is where the dissociation is clean at this scale; high_overlap
+    would be a sweep, which is out of scope here.
 
 Mean rank is deliberately NOT printed live here. `evaluate_and_log` computes
 `rank_own_mean` but its console `_fmt` prints only `rank_own_top1`, which is why the

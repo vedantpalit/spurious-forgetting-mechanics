@@ -1,5 +1,5 @@
 """The causal test of the delta + eps split in the transformer: A's accuracy under three
-readouts at every dense checkpoint (docs/shift_decomposition.md),
+readouts at every dense checkpoint,
 
     trained                  z_a(t)                what happened
     common shift only        z_a(0) + c(t)         h_a(0) + delta_t

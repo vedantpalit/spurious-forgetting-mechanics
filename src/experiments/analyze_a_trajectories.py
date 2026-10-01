@@ -1,6 +1,6 @@
-"""Four descriptive measurements of what happens to A. No mechanism assumed. (FINDINGS §3.21)
+"""Four descriptive measurements of what happens to A. No mechanism assumed.
 
-The mechanism account built in §3.15-§3.19 is set aside pending re-derivation. This rebuilds
+The earlier mechanism account is set aside pending re-derivation. This rebuilds
 from the phenomenon: purely descriptive readouts on existing MLP-free p16000 checkpoints,
 forward passes only, nothing trained. None of them presupposes a channel, a carrier, or a
 decomposition, and the write-up of their results carries no mechanism proposals -- the point is
@@ -30,7 +30,7 @@ to narrow which CLASS of explanation is even possible before any is offered.
    it starts early and propagates or appears late. Not which component caused it.
 
 PRECISION. Left at the JAX default, which is TF32 on GPU, because every other analysis in this
-repo ran that way and these numbers need to be comparable with §3.1's accuracy curves. That
+repo ran that way and these numbers need to be comparable with the accuracy curves. That
 costs ~0.03 on a logit, which can flip an argmax only at a near-tie.
 
 Everything is logged per individual and per layer, un-summarised, so follow-ups do not need a

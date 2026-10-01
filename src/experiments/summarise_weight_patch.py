@@ -1,11 +1,11 @@
-"""Cross-checkpoint readout for the weight patch (FINDINGS §3.21, step 2).
+"""Cross-checkpoint readout for the weight patch (step 2).
 
 Ranks blocks by ||P_j(50)|| - ||P_j(200)||, the change in what block j's patched weights
 account for between the trough and the end of the recovery window, with cos(P_j(50), P_j(200))
 ALONGSIDE. The cosine is not decoration: a piece that ROTATES rather than shrinks shows a norm
 difference near zero and would be invisible without it. P_j is the difference vector
 `delta_none - delta_patched`, never the shrinkage of ||delta|| -- reporting the ratio of totals
-already understated one component by more than half (§3.21).
+already understated one component by more than half.
 
 Also reports whether the per-block contribution is UNIFORM across attributes. Attributes differ
 from 37% to 63% in pattern share while the survivor falls 49-61% in all six; if the OV

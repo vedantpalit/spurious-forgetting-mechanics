@@ -1,4 +1,4 @@
-"""Inject B into OLMo 2 1B by continued pretraining, and watch A (llm/PLAN.md §6-§8).
+"""Inject B into OLMo 2 1B by continued pretraining, and watch A.
 
 THE QUESTION. Does A's accuracy crash and then spontaneously recover? Nothing else.
 
@@ -6,7 +6,7 @@ REGISTER. Training is continued pretraining on prose documents rendered from B's
 the same operation and the same kind of string OLMo saw throughout pretraining. A is read out
 with CounterFact's cloze probe, which is NEVER trained on: training on the probe would practise
 the measuring instrument and contaminate the crash depth. The residual gap (prose in, probe out)
-is a stated property of the design, and PLAN §9's generic-text control is what tests it.
+is a stated property of the design, and the generic-text control is what tests it.
 
 DOCUMENTS ARE RENDERED FRESH EVERY STEP. A fixed corpus is memorisable -- the first B wrote one
 document per person with one phrasing per fact, hit training loss 0.006 by rote, and scored at
@@ -15,7 +15,7 @@ permuted and each sentence draws a random training phrasing at render time. Trai
 therefore plateau well above zero; if it collapses toward zero, memorisation is still winning and
 that number is where it shows.
 
-WHAT IS MEASURED, every eval (§7):
+WHAT IS MEASURED, every eval:
   * A accuracy, NONCOPY stratum -- THE HEADLINE. 62% of A is answerable by copying the answer out
                        of the prompt, which the gate cannot filter. The copy stratum is reported
                        beside it because copying is an in-context operation rather than
@@ -27,8 +27,8 @@ WHAT IS MEASURED, every eval (§7):
                        semantic type B injects into, versus the rest, which is a built-in
                        unrelated contrast inside the same run).
   * B accuracy      -- on HELD-OUT phrasings, which is what caught the memorisation failure.
-                       Recovery tracks B's acquisition rather than step count (FINDINGS §3.19),
-                       so a run where B never learns is not scoreable either way (§0.13).
+                       Recovery tracks B's acquisition rather than step count, so a run
+                       where B never learns is not scoreable either way.
 
 EVAL SCHEDULE. Heavily dense early: the whole event lives before step ~300.
 
@@ -266,7 +266,7 @@ def main():
                    "warmup": a.warmup, "a_info": a_info, "curve": curve}, fh, indent=2)
     print(f"\nwrote {out_path}")
 
-    # --- the reading, against the pre-registered options (§8), on the NONCOPY headline --------
+    # --- the reading, against the pre-registered options, on the NONCOPY headline -------------
     accs = [c["A/noncopy/acc"] for c in curve]
     steps = [c["step"] for c in curve]
     i = int(min(range(len(accs)), key=lambda k: accs[k]))
@@ -284,8 +284,8 @@ def main():
     elif frac > 0.1:
         print("  READING 1: crash AND spontaneous recovery in non-copy A.")
     else:
-        print("  READING 2: crash, no recovery. Per PLAN 8, do NOT reach for a gentler LR; "
-              "and per PLAN 9 the generic-text control is now REQUIRED before this negative "
+        print("  READING 2: crash, no recovery. Do NOT reach for a gentler LR; "
+              "and the generic-text control is now REQUIRED before this negative "
               "means anything.")
 
 

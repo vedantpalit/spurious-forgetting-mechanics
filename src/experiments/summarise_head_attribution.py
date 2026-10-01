@@ -1,4 +1,4 @@
-"""Is the head attribution measuring behaviour, or a gauge direction? (FINDINGS §3.21)
+"""Is the head attribution measuring behaviour, or a gauge direction?
 
 `analyze_head_attribution` scores each head by `<c_h, c> / ||c||^2` with `c` the full-vocabulary
 logit shift. That basis has two defects, and this script measures how much they matter rather

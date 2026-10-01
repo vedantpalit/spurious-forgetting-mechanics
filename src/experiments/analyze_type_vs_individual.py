@@ -25,7 +25,7 @@ throughout this project's diagnostics:
                 analyze_head_decomposition.py) operates at.
   individual -- argmax equals the exact correct token (the existing first_token_accuracy).
 
-CONFOUND, caught before this shipped to FINDINGS: `individual | half` (accuracy conditional
+CONFOUND: `individual | half` (accuracy conditional
 on argmax already landing in-half) looked like it showed ballast retaining individual-level
 knowledge BETTER than A late in injection (0.778 vs 0.544 at step 1200). That comparison is
 badly confounded -- A's conditional is computed on ~99% of rows (basically unconditional),

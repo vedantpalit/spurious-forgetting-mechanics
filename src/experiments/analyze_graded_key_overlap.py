@@ -1,8 +1,7 @@
-"""Analysis for the deliberately-graded key-overlap construction (FINDINGS.md §3.11's
-follow-up): does engineering A's name-part overlap with B into a real 0/1/2/3-shared-part
-distribution (rather than the chance distribution's ~75%-at-3) produce a dose-response,
-and does it make the erosion effect emerge earlier than the chance-level baseline's step
-100 (§3.11)?
+"""Analysis for the deliberately-graded key-overlap construction: does engineering A's
+name-part overlap with B into a real 0/1/2/3-shared-part distribution (rather than the
+chance distribution's ~75%-at-3) produce a dose-response, and does it make the erosion
+effect emerge earlier than the chance-level baseline's step 100?
 
 Population construction (assign_graded_b_names, knowledge_injection.py, triggered by
 InjectConfig.graded_key_overlap) is deterministic given graded_key_seed, so calling
@@ -16,7 +15,7 @@ standard pretrain_key()/experiment_key() formulas apply directly -- no historica
 reconstruction needed.
 
 The primary comparison this script exists to support is NOT internal to this run: it's
-matched-step, point-for-point, against §3.11's chance-level baseline (analyze_name_overlap
+matched-step, point-for-point, against the chance-level baseline (analyze_name_overlap
 .py, STEPS now including 10 and 25) at steps 10/25/50/100. That comparison is assembled by
 reading both scripts' printed emergence curves side by side, not computed in either script,
 since the two populations require different checkpoint keys and cannot share a run.
@@ -45,7 +44,7 @@ from src.experiments.knowledge_injection import (
     init_state, load_meta, make_optimizer, pretrain_key,
 )
 
-# Dense through the window where the chance-level baseline (§3.11) first became
+# Dense through the window where the chance-level baseline first became
 # statistically real (step 100), plus the usual grid after.
 STEPS = (10, 20, 30, 40, 50, 60, 80, 100, 200, 400, 600, 800, 1000, 1200)
 
@@ -175,7 +174,7 @@ def main():
           f"min={overlap_score.min():.0f} max={overlap_score.max():.0f}")
     counts_hist = {c: int((shared_count == c).sum()) for c in range(4)}
     print(f"  PRIMARY dose-response predictor -- shared_count distribution across A: "
-          f"{counts_hist}  (chance-level population, §3.11, was {{0: 1, 1: 34, 2: 461, "
+          f"{counts_hist}  (chance-level population was {{0: 1, 1: 34, 2: 461, "
           f"3: 1504}}; this is the engineered replacement)")
     print(f"  overlap_with_A (intrinsic-crowding control): mean={overlap_with_a.mean():.2f} "
           f"std={overlap_with_a.std():.2f}  "

@@ -1,4 +1,4 @@
-"""B's phrasings (llm/PLAN.md §5).
+"""B's phrasings.
 
 NO TENSE-VARIANTS OF A PROBE. "{name} was employed by {v}", "{name} was born in {v}" and
 "{name} was a native speaker of {v}" were replaced: each differs from a CounterFact probe stem by

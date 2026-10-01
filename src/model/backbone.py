@@ -121,12 +121,12 @@ class CausalSelfAttention(nn.Module):
             sim = jnp.where(keep, sim, -1e9)
 
         attn = nn.softmax(sim, axis=-1).astype(self.dtype)
-        # Sown for the attention-stability check (CLAUDE.md §5 permits logging
-        # attention-to-name-tokens as a check, not as patching infrastructure). Sowing the
-        # post-softmax, pre-dropout distribution: that is the actual attention pattern, and
-        # dropout is 0 by house convention anyway. `sow` into a non-mutable collection is a
-        # no-op -- it adds no parameters and does not touch `attn` -- so this is inert unless
-        # a caller passes mutable=["intermediates"]. Pinned by tests/test_mlpfree_noop.py.
+        # Sown for the attention-stability check (logging attention-to-name-tokens as a check,
+        # not as patching infrastructure). Sowing the post-softmax, pre-dropout distribution:
+        # that is the actual attention pattern, and dropout is 0 by house convention anyway.
+        # `sow` into a non-mutable collection is a no-op -- it adds no parameters and does not
+        # touch `attn` -- so this is inert unless a caller passes mutable=["intermediates"].
+        # Pinned by tests/test_mlpfree_noop.py.
         self.sow("intermediates", "attn_weights", attn)
         if not deterministic and self.dropout_rate > 0.0:
             attn = nn.Dropout(rate=self.dropout_rate)(attn, deterministic=deterministic)

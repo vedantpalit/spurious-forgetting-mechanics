@@ -1,6 +1,6 @@
-"""Every knob of the real-entity injection run, in one place (llm_real/PLAN.md).
+"""Every knob of the real-entity injection run, in one place.
 
-Separate from llm/ on purpose: llm/ is the replication of FINDINGS 3.20 and stays frozen. The
+Separate from llm/ on purpose: llm/ is the original OLMo replication and stays frozen. The
 only things shared are data, never code -- llm/out/gate.json (the A set) is read here, and
 the scoring definitions are re-implemented, not imported, so a change on either side cannot
 silently move the other.
@@ -23,7 +23,7 @@ class RunConfig:
     corpus_b: bool = False        # b_path is a document corpus ({docs, held}), not a fact table:
                                   # the real-text arm; B is read as token accuracy / loss on its
                                   # own documents instead of fact accuracy
-    audit_format: bool = True     # refuse corpora with QA / list / key-value register (llm_real/PLAN.md);
+    audit_format: bool = True     # refuse corpora with QA / list / key-value register;
                                   # off for domain corpora whose native register trips it (PubMed's
                                   # "BACKGROUND:" headers, code's "else:" lines) -- the domain shift
                                   # IS the experiment there, so the register rule does not apply

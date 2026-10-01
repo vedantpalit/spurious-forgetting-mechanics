@@ -1,10 +1,10 @@
-"""Freeze-group ablation: which representation group carries recovery? (toy/PLAN.md §0.13)
+"""Freeze-group ablation: which representation group carries recovery?
 
-The representation-vs-readout split (FINDINGS §3.16) put 100% of the constant component's
-fall on the representation side, but "representation" in the MLP-free model is THREE
-trainable groups -- embeddings, attention, LayerNorm -- and the split was correlational. This
-isolates them causally by freezing groups during injection only, from pretrain checkpoints
-already in hand. No new pretraining.
+The representation-vs-readout split put 100% of the constant component's fall on the
+representation side, but "representation" in the MLP-free model is THREE trainable groups --
+embeddings, attention, LayerNorm -- and the split was correlational. This isolates them
+causally by freezing groups during injection only, from pretrain checkpoints already in hand.
+No new pretraining.
 
 ARMS (arm 5, nothing frozen, is the EXISTING baseline and is deliberately not re-run here:
 adding a freeze tag to its key would change the key and orphan the checkpoints already
@@ -19,9 +19,8 @@ computed):
 logits is a fixed-key readout cannot recover, because every V_A column's driving term
 `(1/|B|) sum_i p_i[j]` is strictly positive, so depression is monotone and saturating. That
 arm is exactly that model, instantiated in the transformer. Pre-registered prediction
-(toy/PLAN.md §0.13, recorded before submission): it crashes and does not recover, with ||c||
-monotone and its maximum at the final injection step, matching `c_readout`'s measured 0.0%
-drop in the split.
+(recorded before submission): it crashes and does not recover, with ||c|| monotone and its
+maximum at the final injection step, matching `c_readout`'s measured 0.0% drop in the split.
 
 FREEZING IS DONE WITH `optax.multi_transform`, NOT `optax.masked`. `masked` passes RAW
 updates through for the unmasked subset rather than zeroing them, so a mask built the obvious
@@ -71,8 +70,8 @@ SCHEDULES = {
 # parameter tree, not assumed: with the MLPs removed each block has a single LayerNorm_0
 # (LayerNorm_1 was the pre-MLP norm), plus one final backbone LayerNorm_0.
 # Attention is split into QK (routing: what the pattern can be) and VO (the value and
-# output projections, which feed the shared forward path). PLAN.md 0.16 makes the QK arm
-# primary: 0.15 measured the patterns as flat through the recovery window, so freezing QK
+# output projections, which feed the shared forward path). The QK arm is primary: the
+# attention patterns were measured as flat through the recovery window, so freezing QK
 # tests routing by intervention rather than by correlation.
 GROUPS = {
     "embeddings": lambda path: path[0] == "input_layer",

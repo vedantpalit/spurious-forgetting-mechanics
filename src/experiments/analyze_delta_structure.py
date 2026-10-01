@@ -1,4 +1,4 @@
-"""What are delta and eps made of, and where do they enter? (FINDINGS §3.21, measurements 2-4)
+"""What are delta and eps made of, and where do they enter? (measurements 2-4)
 
 Lookups on existing MLP-free p16000 checkpoints. Forward passes only, nothing trained, no
 mechanism asserted.

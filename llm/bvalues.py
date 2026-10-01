@@ -1,4 +1,4 @@
-"""B's value inventories -- REAL entities, not invented ones (llm/PLAN.md §5).
+"""B's value inventories -- REAL entities, not invented ones.
 
 THE BALLAST LESSON. In the small setup, population D pretrained the other half of the value pool
 so that injection did not write into cold vocabulary, and without D recovery was weak or absent

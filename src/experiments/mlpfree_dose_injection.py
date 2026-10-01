@@ -1,6 +1,6 @@
 """Dose experiment: does the ||c|| turnover track B's resolution, or the step number?
 
-(toy/PLAN.md §0.18, pre-registered before submission.)
+(Pre-registered before submission.)
 
 THE CLAIM. Recovery is the constant component being bought back as B's individuals become
 mutually resolvable -- the coherent "push V_A down" write stops paying once individual-specific
@@ -28,8 +28,7 @@ KEY COMPATIBILITY, DELIBERATE. Phase and filename prefix are left identical to
 `mlpfree_injection`, so `--lr_mult 1.0 --inject_batch 256` reproduces the existing unfrozen
 baseline's key EXACTLY and that condition is reused rather than re-run. Both knobs already
 enter the key through the hashed inject config (peak_lr via inject.opt, batch_size directly),
-so every other setting gets a distinct key automatically -- nothing is appended to the key,
-per §0.17.
+so every other setting gets a distinct key automatically -- nothing is appended to the key.
 
 Run:
   uv run python -m src.experiments.mlpfree_dose_injection \\
@@ -91,14 +90,13 @@ def main():
     extra.add_argument("--inject_seed", type=int, required=True)
     extra.add_argument("--inject_total_steps", type=int, default=3000, choices=sorted(SCHEDULES),
                        help="3000 by default: the slow conditions must run long enough for the "
-                            "turnover to be OBSERVED rather than truncated (PLAN.md 0.18c)")
+                            "turnover to be OBSERVED rather than truncated")
     extra.add_argument("--lr_mult", type=float, default=1.0)
     extra.add_argument("--inject_batch", type=int, default=256)
     extra.add_argument("--dense_checkpoints", action="store_true",
-                       help="5-step checkpoint resolution through the turnover region "
-                            "(PLAN.md 0.18d). Changes inject.checkpoint_steps, which is "
-                            "hashed, so these are DISTINCT runs and do not overwrite the "
-                            "coarse-grid ones.")
+                       help="5-step checkpoint resolution through the turnover region. "
+                            "Changes inject.checkpoint_steps, which is hashed, so these are "
+                            "DISTINCT runs and do not overwrite the coarse-grid ones.")
     extra.add_argument("--fig_checkpoints", action="store_true",
                        help="FIG_SCHEDULE (10-step resolution to 300, t1200 only); distinct runs")
     known, remaining = extra.parse_known_args()
@@ -121,7 +119,7 @@ def main():
         "--partition_path", "data/biography/value_partition.npz", "--seed", "42",
         "--wandb_mode", "offline",
     ] + remaining
-    cfg = parse_config(KIConfig, description="MLP-free dose experiment (PLAN 0.18)")
+    cfg = parse_config(KIConfig, description="MLP-free dose experiment")
     pop, _std, data_cfg, _, data_a, data_ballast, data_b, data_c = build(
         cfg, cfg.inject.max_eval_people)
     model = create_mlpfree_model(cfg.model, data_cfg)
@@ -153,7 +151,7 @@ def main():
     ckpt_steps = parse_steps(inject_cfg.checkpoint_steps, inject_cfg.total_steps)
     # phase and key_extra identical to mlpfree_injection ON PURPOSE: lr_mult=1, batch=256 then
     # reproduces the baseline key exactly and is reused rather than re-run. Both knobs already
-    # enter the key through the hashed inject config, so nothing is appended (PLAN.md 0.17).
+    # enter the key through the hashed inject config, so nothing is appended.
     key = experiment_key(
         cfg.model, data_cfg, cfg.data.biography_data_path, phase="mlpfreeinject",
         inject=replace(inject_cfg, max_eval_people=0), pretrain_key=pre_key,

@@ -1,4 +1,4 @@
-"""Is A's residual displacement common across individuals? (FINDINGS §3.21, measurement A)
+"""Is A's residual displacement common across individuals? (measurement A)
 
 Descriptive, forward passes on existing MLP-free p16000 checkpoints, nothing trained.
 

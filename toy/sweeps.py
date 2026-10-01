@@ -16,7 +16,6 @@ AXES
   dose    injection-rate multiplier       (NOT gate matched, by design)
 
 Each cell: pretrain once (learning-rate probe), bisect, then one full injection run.
-Same driver as toy_final/k1/sweeps.py with the model swapped for kmin (no gain argument).
 """
 import argparse
 import json

@@ -1,22 +1,22 @@
 """Shared pieces for the no-final-norm ablation: the direct test of the toy's recovery term.
 
-WHAT IS BEING TESTED. In the K=1 toy (toy_final/k1/THEORY.md SS7, paper SSmechanism) the
-recovery of the old population comes from one place: the parameter-free normalizer in front
-of the softmax. Its Jacobian gives every injected individual's error signal an extra term,
-(M_b / ||h_b||) h_hat_b, whose coefficient is that individual's confidence margin. That term
-builds the shared shift on A while B is wrong and withdraws it once B is right. With a
-linear readout the term does not exist and the crash never reverses (0 of 96 runs).
+WHAT IS BEING TESTED. In the K=1 toy (paper Section 3) the recovery of the old population comes
+from one place: the parameter-free normalizer in front of the softmax. Its Jacobian gives every
+injected individual's error signal an extra term, (M_b / ||h_b||) h_hat_b, whose coefficient is
+that individual's confidence margin. That term builds the shared shift on A while B is wrong
+and withdraws it once B is right. With a linear readout the term does not exist and the crash
+never reverses (0 of 96 runs).
 
 The transformer's final LayerNorm is that normalizer. So the prediction is: an otherwise
 identical 8-layer model whose backbone ends at the last block's residual, with no LayerNorm
 before the unembedding, crashes when B is injected and DOES NOT RECOVER -- delta (the common
-part of A's displacement, FINDINGS SS3.21.5) should not reverse, eps should be unchanged. If
-A recovers anyway, the toy's account of recovery is wrong for the transformer.
+part of A's displacement) should not reverse, eps should be unchanged. If A recovers anyway,
+the toy's account of recovery is wrong for the transformer.
 
 WHAT IS NOT REMOVED. The pre-norm inside every block. The model is not trainable at this
 depth without them, and the toy's K-stack found that per-block normalizers generate no
-anti-state term (THEORY SS13.1, autodiff to 1e-13): the one term is generated at the final
-normalizer. Removing the block norms would change trainability and the comparison at once.
+anti-state term (autodiff to 1e-13): the one term is generated at the final normalizer.
+Removing the block norms would change trainability and the comparison at once.
 
 Mirrors mlpfree_common.py in structure and in the two things that make failure loud:
 

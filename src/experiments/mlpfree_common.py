@@ -1,4 +1,4 @@
-"""Shared pieces for the MLP-free ablation (docs/mlp_free_ablation_plan.md).
+"""Shared pieces for the MLP-free ablation.
 
 Mirrors the role `scale8_common.py` plays for the scale check -- one place for the model
 factory, the params-derived verification, the arm-discriminated checkpoint key, and the load
@@ -115,14 +115,14 @@ def verify_no_mlp(params, verbose=True) -> int:
 
 def load_ratio(pop, halves, num_a, num_ballast, support_size):
     """Individuals per value, per attribute, per half -- the load diagnostic that runs at
-    every gate whether it passes or fails (docs/mlp_free_ablation_plan.md §6.1).
+    every gate whether it passes or fails.
 
     Computed per half, not pooled: A draws only from X and ballast only from Y, so the two
     populations' loads land on disjoint value sets and do NOT add. What doubling the
     population changes is the total fact count, not this ratio -- which is exactly why the
-    A-alone diagnostic in §6.2 localizes a per-value ceiling against a total-load ceiling.
+    A-alone diagnostic localizes a per-value ceiling against a total-load ceiling.
 
-    Uses post-filter pool counts (CLAUDE.md §3: nominal pool size is not effective pool size).
+    Uses post-filter pool counts (nominal pool size is not effective pool size).
     Returns (rows, summary) where rows are per-attribute dicts.
     """
     rows = []
@@ -160,10 +160,9 @@ def print_load_ratio(pop, halves, num_a, num_ballast, support_size):
           f"(support_size={support_size})")
     print(f"  Total facts stored (A+D) x {len(rows)} attributes = "
           f"{summary['total_facts_A_union_D']:,}")
-    print("  Reference points (docs/mlp_free_ablation_plan.md SS6.1): the hand-built toy "
-          "plateaued at ~31 individuals-per-value and converged at ~7.8. The standard "
-          "8-layer model reaches ceiling at this same ratio, so a ratio near 30 is not "
-          "prohibitive for a model WITH MLPs.\n")
+    print("  Reference points: the hand-built toy plateaued at ~31 individuals-per-value "
+          "and converged at ~7.8. The standard 8-layer model reaches ceiling at this same "
+          "ratio, so a ratio near 30 is not prohibitive for a model WITH MLPs.\n")
     return rows, summary
 
 
@@ -215,9 +214,9 @@ _CLIMBING_EPS = 0.005  # accuracy per 1000 steps
 
 class GateProbe:
     """Accumulates the gate's per-attribute accuracy trajectory and reports, at each probe
-    step, the three things the gate reading needs (docs/mlp_free_ablation_plan.md §6):
-    per-attribute accuracy against the load ratio, the slope (flat vs still-climbing), and
-    the occupancy the whole thing is happening at.
+    step, the three things the gate reading needs: per-attribute accuracy against the load
+    ratio, the slope (flat vs still-climbing), and the occupancy the whole thing is
+    happening at.
     """
 
     def __init__(self, load_rows, occupancy_pct, n_params):
@@ -251,10 +250,10 @@ class GateProbe:
             print(f"  slope since step {s0}: {slope_1k:+.4f} accuracy per 1000 steps")
             if slope_1k > _CLIMBING_EPS:
                 print(f"  -> STILL CLIMBING (> {_CLIMBING_EPS} per 1k). Let it run; do NOT "
-                      f"call reading 3 on a curve that still has slope.")
+                      f"call a structural plateau on a curve that still has slope.")
             else:
                 print(f"  -> FLAT (<= {_CLIMBING_EPS} per 1k). If also far from ceiling, this "
-                      f"is the reading-3 signature. Display heuristic -- confirm by eye "
+                      f"is the structural-plateau signature. Display heuristic -- confirm by eye "
                       f"against the trajectory below.")
         if len(self.history) >= 3:
             traj = "  ".join(f"{s}:{a:.4f}" for s, a, _ in self.history)

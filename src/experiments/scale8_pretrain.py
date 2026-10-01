@@ -1,7 +1,7 @@
 """Full pretrain for the 8-layer/512-dim scale check, at the LR chosen from
-scale8_lr_probe.py's result (5e-4, matching the pilot's own LR -- see FINDINGS.md
-SS4.5, both 5e-4 and 1e-3 reached ceiling in the probe, 5e-4 kept for consistency with
-the pilot rather than introducing a second variable alongside the architecture change).
+scale8_lr_probe.py's result (5e-4, matching the pilot's own LR -- both 5e-4 and 1e-3 reached
+ceiling in the probe, 5e-4 kept for consistency with the pilot rather than introducing a second
+variable alongside the architecture change).
 
 Does not assume 8000 steps (the pilot's own budget) is right at this scale. Runs a
 16,000-step budget (Zucchet's own step count, not an arbitrary guess) with checkpoints

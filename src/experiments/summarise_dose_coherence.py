@@ -1,6 +1,6 @@
-"""Does de-coherence track B's clock or the step clock? (FINDINGS 3.21)
+"""Does de-coherence track B's clock or the step clock?
 
-Reads `dose_coherence/*.npz`. Two panels, the same shape as the 3.19 dose figure:
+Reads `dose_coherence/*.npz`. Two panels, the same shape as the dose figure:
 
   panel 1   mean pairwise cosine vs STEP        -- the step-count alternative predicts the
                                                    conditions lying on top of each other
@@ -13,7 +13,7 @@ range they share -- smaller spread on B's clock than on the step clock is the re
 ratio of the two is the effect size.
 
 Also reports the step at which coherence crosses a threshold in each condition, against B's
-onset, as the direct analogue of 3.19's turnover-vs-onset regression.
+onset, as the direct analogue of the dose runs' turnover-vs-onset regression.
 
 Run: uv run python -m src.experiments.summarise_dose_coherence
 """
@@ -24,7 +24,7 @@ import os
 import numpy as np
 
 OUT_DIR = "dose_coherence"
-# From FINDINGS 3.19's table: the step at which B's accuracy first exceeds 0.5. Used only for
+# From the earlier dose runs: the step at which B's accuracy first exceeds 0.5. Used only for
 # the regression panel; the vs-B-accuracy comparison uses each run's OWN measured B accuracy.
 B_ONSET = {"lr2.0-bs256": 40, "lr1.0-bs512": 60, "lr1.0-bs128": 80, "lr0.5-bs256": 120}
 
@@ -131,7 +131,7 @@ def main():
         print(f"  {t:>14} {st[i]:>12.0f} {c[i]:>10.3f} {c[-1]:>11.3f} "
               f"{(c[i]-c[-1])/max(c[i], 1e-9):>12.1%}")
 
-    print(f"\nCROSSING STEP at pairwise cos = {a.threshold}, against B's onset (3.19 table)")
+    print(f"\nCROSSING STEP at pairwise cos = {a.threshold}, against B's onset (dose runs)")
     print(f"  {'condition':>14} {'B onset':>8} {'crossing':>9}")
     xs, ys = [], []
     for tag in tags:
@@ -152,8 +152,8 @@ def main():
         xs, ys = np.array(xs, float), np.array(ys, float)
         sl, ic = np.polyfit(xs, ys, 1)
         r = np.corrcoef(xs, ys)[0, 1]
-        print(f"  fit: slope {sl:.3f}  intercept {ic:.1f}  r = {r:.4f}   (3.19's turnover fit "
-              f"was slope 0.800, intercept -5.0, r = 0.9978)")
+        print(f"  fit: slope {sl:.3f}  intercept {ic:.1f}  r = {r:.4f}   (the dose runs' "
+              f"turnover fit was slope 0.800, intercept -5.0, r = 0.9978)")
         print(f"  the step-count alternative predicts a FLAT crossing; observed range "
               f"{ys.min():.0f} to {ys.max():.0f}")
     else:

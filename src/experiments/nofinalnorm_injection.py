@@ -13,9 +13,9 @@ THE READ. Three things, in this order, against the standard arm at the same step
      peak and reverse as in the standard arm (37% off its peak by step 200), or keep
      growing / stall?  (prediction: no reversal)
   3. eps, the individual part: should be unchanged in shape, monotone.
-Report B's acquisition curve next to every one of these (CLAUDE.md SS4): if B is slower in
-this arm, the crash is slower too, and "no recovery by step 1200" could be a slower clock
-rather than a missing force. The 3000-step schedule exists for exactly that check.
+Report B's acquisition curve next to every one of these: if B is slower in this arm, the crash
+is slower too, and "no recovery by step 1200" could be a slower clock rather than a missing
+force. The 3000-step schedule exists for exactly that check.
 
 Run:
   uv run python -m src.experiments.nofinalnorm_injection --pretrain_step 16000 --inject_seed 0

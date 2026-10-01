@@ -6,7 +6,7 @@ Efficiency against llm/inject.py, each measured on the first job and written to 
   * micro-batch 16 x 512 with gradient checkpointing: 4 accumulation passes per 32k-token
     step instead of 16;
   * fused AdamW, TF32 matmuls, bf16 autocast, fp32 master weights (the precision lesson of
-    llm/PLAN.md 6.1 is kept: never run the optimizer on bf16 parameters);
+    llm/ is kept: never run the optimizer on bf16 parameters);
   * vectorized rank scoring, eval batch 256;
   * checkpoints (model + optimizer + RNG + curve) at the geometric eval points, so a
     preempted job resumes at the last one instead of restarting. `--resume` finds it.
@@ -240,7 +240,7 @@ def run(cfg: RunConfig, resume: bool = False):
 
 
 def reading(curve):
-    """The pre-registered read, on the non-copy headline (llm/PLAN.md 8)."""
+    """The pre-registered read, on the non-copy headline."""
     accs = [c["A/noncopy/acc"] for c in curve]; steps = [c["step"] for c in curve]
     i = int(np.argmin(accs)); peak = max(accs[i:])
     frac = (peak - accs[i]) / max(accs[0] - accs[i], 1e-12)

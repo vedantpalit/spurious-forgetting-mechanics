@@ -6,13 +6,11 @@
 
 The readout has three arms, set by `norm`: 1 = rms (the model), 2 = ReLU, 0 = none (z = h U,
 the Zucchet toy). That is the only difference between them, and it is what separates a
-monotone shift from one that is withdrawn (paper/math.tex): only the rms puts a term along
+monotone shift from one that is withdrawn: only the rms puts a term along
 the new fact's own state into the gradient, with the sign of its confidence.
 
-Against toy_final/k1: no skip connection, no gain, no store-input normalizer, no separate
-readout rate -- W and U move at the same rate throughout, and both are initialised N(0, 1/d).
-Everything else (keys, populations, the LR-probe pretraining, the injection ratio, the logged
-observables) is the same, so the sweep and figure code carries over.
+No skip connection, no gain, no store-input normalizer, no separate readout rate -- W and U
+move at the same rate throughout, and both are initialised N(0, 1/d).
 
 KEYS.  k_i = sqrt(beta) mu + sqrt(1-beta) g_i,  g_i a random unit vector, mu shared by all.
 beta is the expected cosine between any two keys: the one relatedness knob.

@@ -1,8 +1,8 @@
 """Cloze scoring for A and B: first-token accuracy over the full vocabulary, and mean rank of
 the correct answer within a fixed candidate pool. Same definitions as llm/inject.py (so the
-curves are comparable to FINDINGS 3.20), re-implemented here rather than imported so the two
-pipelines cannot drift into each other, and vectorized: one gather per batch for the ranks
-instead of a Python loop per item.
+curves are comparable), re-implemented here rather than imported so the two pipelines cannot
+drift into each other, and vectorized: one gather per batch for the ranks instead of a Python
+loop per item.
 
 A's items and pools come from llm/out/gate.json through `build_a`, which mirrors
 llm/evalsets.build_a's stratification (copy / noncopy is the headline split). B's items come
@@ -45,7 +45,7 @@ B_TYPED_RELATIONS = ("P176", "P178", "P108", "P159", "P27", "P103", "P364")
 def build_a(tok, gate_path, dataset, seed=0):
     """A's eval items and rank pools from llm/out/gate.json -- the same construction as
     llm/evalsets.build_a, step for step (same pool cap and sampling seed, same copy test, same
-    strata), so A is literally the same 1,106 facts scored the same way as in FINDINGS 3.20."""
+    strata), so A is literally the same 1,106 facts scored the same way as in llm/inject.py."""
     A = json.load(open(gate_path, encoding="utf-8"))["A"]
     full_pool, prompt_by = defaultdict(set), {}
     for r in dataset:

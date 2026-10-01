@@ -1,13 +1,13 @@
-"""Is delta produced by attention PATTERN change, or by what attention writes? (§3.21, patching)
+"""Is delta produced by attention PATTERN change, or by what attention writes? (patching)
 
 Zucchet et al. (arXiv 2503.21676) locate the extraction circuit -- which selects and relays
-information according to the requested attribute type -- in the FINAL attention layer. §3.21.8
-found delta entering overwhelmingly at block 7: 40-50% of the total, 21.7 at the trough against
-6.6 for the next largest. Same location. That invites a reading delta has not been tested
+information according to the requested attribute type -- in the FINAL attention layer. An earlier
+measurement found delta entering overwhelmingly at block 7: 40-50% of the total, 21.7 at the trough
+against 6.6 for the next largest. Same location. That invites a reading delta has not been tested
 against: that it is not a push against A's values but the attribute-type SELECTION being biased
-toward B's region, which would account for delta being individual-blind, entering last, and
-having no alignment with B's mean representation (cos -> 0.00 while ||delta|| stays 10.3), since
-selection is not similarity.
+toward B's region, which would account for delta being individual-blind, entering last, and having
+no alignment with B's mean representation (cos -> 0.00 while ||delta|| stays 10.3), since selection
+is not similarity.
 
 THE INTERVENTION. At the trough checkpoint, run A's prompts with every weight at its trough value
 but block j's attention pattern replaced by the STEP-0 pattern, and remeasure delta.
@@ -22,7 +22,7 @@ Blocks are patched individually and cumulatively from block 7 downward, so "bloc
 "block 7 plus what feeds it" are distinguishable.
 
 NO DOSE CONFOUND. Nothing is trained, so B's acquisition is untouched by construction. That is
-what the freeze arms could never provide (§2.6).
+what the freeze arms could never provide.
 
 HOW THE SUBSTITUTION IS DONE. `nn.softmax` is called exactly once in the whole model
 (backbone.py:123, inside CausalSelfAttention), so the call is intercepted at runtime and the

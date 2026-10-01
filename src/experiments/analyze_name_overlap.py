@@ -5,19 +5,19 @@ The first version of this script used "shares a part with ANY B individual" as t
 predictor and found it nearly universal at these pool sizes (200/200/213 vs. |B|=500):
 1504 of 2000 A individuals share all 3 parts with some B individual, only 35 sit at
 count 0/1 -- not enough spread to read a dose-response from. That predicate is also the
-wrong one theoretically: the crowding account (§1.4 -- Bietti/Cabannes, gradient descent
-on associative memories accumulating outer products of keys and values) is about how many
+wrong one theoretically: the crowding account (Bietti/Cabannes, gradient descent on
+associative memories accumulating outer products of keys and values) is about how many
 new keys sit close to a given individual's key, not whether at least one does.
 
 So the primary predictor here is continuous: for each A individual i and part
 j in {first, middle, last}, mult_j(i) = the number of B individuals whose part-j token
 equals i's -- how many of B's 500 new keys are one-part-identical to i's key along that
 axis. `overlap_score(i) = sum_j mult_j(i)`. Under the compositional-key hypothesis this
-project already carries (CLAUDE.md §6 Step 0 -- keys as roughly-orthogonal sums of three
-name-part vectors), this is the natural linear proxy for "how many new keys are close to
-this one": a match with 10 different B individuals on one part contributes as much as a
-match with 1 B individual on all three, which is the right accounting if closeness is
-compositional and additive over parts rather than requiring a full-name match.
+project already carries (keys as roughly-orthogonal sums of three name-part vectors),
+this is the natural linear proxy for "how many new keys are close to this one": a match
+with 10 different B individuals on one part contributes as much as a match with 1 B
+individual on all three, which is the right accounting if closeness is compositional and
+additive over parts rather than requiring a full-name match.
 
 Two confounds are handled by regression, not by stratifying (stratifying loses power and
 was only used in the first version of this script):
@@ -37,9 +37,8 @@ analyzed here (BiographyPopulation._assign_names runs before _assign_values, and
 crossover runs share one pretrain). Only per-step damage varies by run.
 
 Damage is rank_own (own-half-restricted), not raw accuracy or rank_full: key overlap is
-a candidate mechanism for erosion (individual-level, §3.1 Phase 2), not the coarse
-half-level suppression (§3.5), which is value-region-based and has nothing to do with
-name parts.
+a candidate mechanism for erosion (individual-level), not the coarse half-level
+suppression, which is value-region-based and has nothing to do with name parts.
 
 A fourth covariate closes the intrinsic-crowding confound: overlap_score partly measures
 how common an individual's name parts are in the pools generally -- common parts mean
@@ -74,12 +73,11 @@ from src.train import eval_forward
 
 PARTS = ("first", "middle", "last")
 # Every dense checkpoint the crossover saved (10 and 25 included): the graded-overlap
-# construction (FINDINGS.md §3.11's follow-up) tests whether deliberately larger overlap
-# makes the effect appear earlier than this chance-level baseline's step 100 -- the
-# strongest version of that comparison is point-for-point at matched steps, which needs
-# this baseline computed at every step the graded run's early window will also use (10,
-# 25 here; the graded run additionally has 20/30/40/60/80, never saved for this run and
-# not retroactively available).
+# construction tests whether deliberately larger overlap makes the effect appear earlier
+# than this chance-level baseline's step 100 -- the strongest version of that comparison
+# is point-for-point at matched steps, which needs this baseline computed at every step
+# the graded run's early window will also use (10, 25 here; the graded run additionally
+# has 20/30/40/60/80, never saved for this run and not retroactively available).
 STEPS = (10, 25, 50, 100, 200, 400, 600, 800, 1000, 1200)
 
 
@@ -106,7 +104,7 @@ def per_person_rank_own(model, params, ds, x_ids, batch_size=256):
 
 def per_person_margin_own(model, params, ds, x_ids, batch_size=256):
     """Per-person, per-attribute margin (correct logit minus the best OTHER own-half
-    candidate's logit -- §3.5's gap_own, per person rather than pooled). (N, 6) array.
+    candidate's logit -- gap_own, per person rather than pooled). (N, 6) array.
     """
     n = ds.eval_inputs.shape[0]
     out = np.zeros((n, 6), dtype=np.float64)
@@ -130,15 +128,15 @@ def per_person_margin_own(model, params, ds, x_ids, batch_size=256):
 # --- checkpoint loading ---
 
 def crossover_pretrain_key(cfg, data_cfg):
-    """The high_overlap/disjoint crossover (§3.2) ran before the checkpoint-key fix that
+    """The high_overlap/disjoint crossover ran before the checkpoint-key fix that
     added a partition-file content hash to pretrain_key() (ckpt.py/knowledge_injection.py,
-    landed to close a real collision bug -- see FINDINGS.md/CLAUDE.md). Its checkpoints on
-    disk are keyed under the OLD (pre-fix) formula; calling today's pretrain_key() gives a
-    different, real-but-wrong key (confirmed: it resolves to a checkpoint from the later
-    exclusion-fraction sweep, not this run) and every load below would silently 404. This
-    reproduces the crossover's own historical formula -- verified locally to rederive its
-    known real key exactly (high_overlap seed0 -> inject key 49d1b419b26d, matching the
-    run's own printed log) before this was wired in.
+    landed to close a real collision bug). Its checkpoints on disk are keyed under the OLD
+    (pre-fix) formula; calling today's pretrain_key() gives a different, real-but-wrong key
+    (confirmed: it resolves to a checkpoint from the later exclusion-fraction sweep, not
+    this run) and every load below would silently 404. This reproduces the crossover's own
+    historical formula -- verified locally to rederive its known real key exactly
+    (high_overlap seed0 -> inject key 49d1b419b26d, matching the run's own printed log)
+    before this was wired in.
     """
     pretrain_for_key = replace(cfg.pretrain, max_eval_people=0, eval_interval=0, target_acc=0.0)
     return experiment_key(
@@ -150,7 +148,7 @@ def crossover_pretrain_key(cfg, data_cfg):
 
 def historical_inject_cfg_dict(inject_cfg):
     """The crossover ran before InjectConfig had graded_key_overlap/graded_key_seed
-    (added for the graded key-overlap construction, FINDINGS.md §3.11's follow-up).
+    (added for the graded key-overlap construction).
     experiment_key hashes every field dataclasses.asdict() produces, so the live
     InjectConfig now silently computes a different, real-but-wrong key for the crossover's
     own checkpoints (confirmed: d68c1e521ca6 instead of the real 49d1b419b26d) -- this is
@@ -239,11 +237,11 @@ def decile_report(damage, overlap):
 
     Position-based split (rank order, ties broken by stable sort on original index), not
     value-threshold quantiles. With many people tied at the same low integer overlap_score
-    (real for the graded population -- FINDINGS.md §3.11's follow-up -- where the 10th
-    percentile itself can land exactly on a heavily-tied value), threshold binning via
-    np.digitize pushes every tied value into the bin above the boundary, silently emptying
-    decile 1 (confirmed: this shipped as a NaN in the first graded-run report). Splitting
-    by rank position instead guarantees non-empty, ~equal-sized bins regardless of ties.
+    (real for the graded population, where the 10th percentile itself can land exactly
+    on a heavily-tied value), threshold binning via np.digitize pushes every tied value
+    into the bin above the boundary, silently emptying decile 1 (confirmed: this shipped as
+    a NaN in the first graded-run report). Splitting by rank position instead guarantees
+    non-empty, ~equal-sized bins regardless of ties.
     """
     n = len(overlap)
     order = np.argsort(overlap, kind="stable")
@@ -264,10 +262,10 @@ def decile_report(damage, overlap):
 # of an individual's own overlap_score in isolation. If A individuals sharing a specific
 # name-part token also share the parameters encoding it, harm to that token is harm to
 # everyone holding it -- and total damage would scale with how many DISTINCT tokens B
-# disturbs, not with per-individual overlap. The graded construction (§3.11's follow-up)
-# shrank B's token footprint sharply (fewer distinct tokens used) while leaving mean
-# overlap_score almost unchanged (7.35 -> 7.23) -- exactly the pattern this predicts, and
-# it needs no curvature at all.
+# disturbs, not with per-individual overlap. The graded construction shrank B's token
+# footprint sharply (fewer distinct tokens used) while leaving mean overlap_score almost
+# unchanged (7.35 -> 7.23) -- exactly the pattern this predicts, and it needs no
+# curvature at all.
 
 def token_level_correlation(damage, tokens_a, tokens_b, part_name):
     """Token-level (not individual-level) view: does a token's B-usage predict mean
@@ -379,7 +377,7 @@ def main():
     x_ids = [pop.attr_first_token_ids[k][halves[k][0]] for k in range(6)]
     # B's OWN value-half is condition-dependent (B_HALF), unlike A's (always X) -- needed
     # for candidate 2 (B's own-half margin, closing the "B's internal crowding absorbs the
-    # gradient" account for the aggregate result, FINDINGS.md §3.11's follow-up).
+    # gradient" account for the aggregate result).
     b_half = B_HALF[cfg.inject.condition]
     b_own_ids = [pop.attr_first_token_ids[k][halves[k][0] if b_half == "X" else halves[k][1]]
                  for k in range(6)]

@@ -8,7 +8,7 @@ own update direction (undoing alignment), concentrated in bottom layers / input 
 
 Two predictions, opposite in *where* the phase-1 update concentrates:
   - Zheng-style mechanism: dominated by embedding / bottom-layer components.
-  - Suppression account (FINDINGS.md): dominated by the OUTPUT HEAD, and specifically by
+  - Suppression account: dominated by the OUTPUT HEAD, and specifically by
     the head columns/bias entries for half-Y candidates during phase 1 (0->10) -- the
     sharp test, since it is falsifiable in a direction Zheng's account does not predict.
 

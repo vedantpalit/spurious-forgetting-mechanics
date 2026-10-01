@@ -1,4 +1,4 @@
-"""Does a bf16 optimizer step actually write anything? (llm/PLAN.md §6)
+"""Does a bf16 optimizer step actually write anything?
 
 THE SUSPICION. `inject.py` loaded OLMo in bfloat16 and ran AdamW directly on those bf16
 parameters -- no fp32 master weights. bf16 carries 8 mantissa bits, so its relative resolution is

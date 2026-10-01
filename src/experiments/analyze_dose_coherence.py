@@ -1,4 +1,4 @@
-"""Does the OV pieces' de-coherence track B's acquisition, or the step number? (FINDINGS 3.21)
+"""Does the OV pieces' de-coherence track B's acquisition, or the step number?
 
 THE STATE CHANGE, ALREADY MEASURED. At the trough the eight blocks' OV contributions are
 mutually aligned -- mean pairwise cosine 0.485, banded by depth -- and by the recovery peak all

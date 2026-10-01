@@ -1,7 +1,7 @@
 """Can the base model, with no training, predict which old facts will be suppressed and which
 will erode? (OLMo 2 1B; the toy's laws read from the pretrained representations.)
 
-THE LAWS BEING TESTED (toy/THEORY.md, paper Section 3). With keys
+THE LAWS BEING TESTED (paper Section 3). With keys
 k = sqrt(beta) mu + sqrt(1 - beta) g, one step on the new facts B moves old fact a by
 
     dh_a = -eta/|B| sum_b <k_a, k_b> r_b

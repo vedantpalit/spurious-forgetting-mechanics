@@ -17,16 +17,16 @@ Static per-person covariates (overlap_score vs. B, overlap_with_A vs. A itself, 
 analyze_name_overlap.py's formula) are computed once from the same population construction
 demo_injection.py used for this arm. They are NOT interchangeable across arms: population
 size (num_ballast: 0 vs. >0) changes RNG consumption in BiographyPopulation's name
-assignment (see pretrain_key's own docstring -- the same fact CLAUDE.md's checkpoint-key
-notes already establish for value assignment applies here too), so A's actual names, and
-therefore overlap_score/overlap_with_A, can differ between the two arms even though A's ids
-are always [0, num_a). They are seed-invariant WITHIN one arm (inject.seed only varies B's
+assignment (see pretrain_key's own docstring -- the same fact already established for value
+assignment applies here too), so A's actual names, and therefore
+overlap_score/overlap_with_A, can differ between the two arms even though A's ids are
+always [0, num_a). They are seed-invariant WITHIN one arm (inject.seed only varies B's
 batch-sampling stream, per InjectConfig.seed's own docstring), so recomputing them fresh in
 every (arm, seed) run here is correct, not redundant across arms, and cheap either way.
 
 Saves one compact .npz per (arm, inject_seed): steps, rank_own (num_steps, N, 6),
 first_correct (num_steps, N, 6), overlap_score (N,), overlap_with_A (N,), person_ids (N,).
-Also prints the bottom-decile-at-final-checkpoint report the user asked for: which
+Also prints a bottom-decile-at-final-checkpoint report: which
 individuals sit in the bottom decile of mean rank_own at the last saved step, and how their
 overlap_score/overlap_with_A compare to the rest of A.
 

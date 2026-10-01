@@ -2,11 +2,10 @@
 individuals (no new facts, no new value assignment -- literally continue training on their
 existing biographies with their existing values), then measure whether the untouched
 remainder of A shows a graded margin response by name-part overlap with that subset. This is
-the positive-sign counterpart to §3.12's token-clustering damage mechanism: if writing to a
-shared component damages everyone holding it, reinforcing one should benefit everyone holding
-it. It is also the identical-adjacent boundary condition §4.5 lists as unmeasured, and the
-mechanistic account for Zucchet's own unexplained celebrities result (§1.1, ~50%->70% on the
-untouched population).
+the positive-sign counterpart to the token-clustering damage mechanism: if writing to a shared
+component damages everyone holding it, reinforcing one should benefit everyone holding it. It
+is also an identical-adjacent boundary condition not yet measured, and the mechanistic account
+for Zucchet's own unexplained celebrities result (~50%->70% on the untouched population).
 
 PRE-REGISTRATION (settled before this ran; do not revise after seeing results)
 
@@ -27,25 +26,25 @@ PRE-REGISTRATION (settled before this ran; do not revise after seeing results)
       confound to control for.
 
   Why this design is sound despite fine-tuning itself being a real intervention: margins
-  keep moving under cross-entropy after accuracy saturates (§3.12's candidate 2), so
-  continued training WILL move the remainder's margins regardless of token sharing -- that
-  is expected, not a confound to design around. What makes the design interpretable is that
-  the shared_count GRADIENT self-controls: a generic, token-sharing-independent training
-  effect lifts (or drops) all four shared_count groups together and shows up as a flat
-  gradient -- which is already the falsification criterion below, not a separate control
-  arm requirement. "The checkpoint is converged" was never the reason this is sound.
+  keep moving under cross-entropy after accuracy saturates, so continued training WILL move
+  the remainder's margins regardless of token sharing -- that is expected, not a confound to
+  design around. What makes the design interpretable is that the shared_count GRADIENT
+  self-controls: a generic, token-sharing-independent training effect lifts (or drops) all
+  four shared_count groups together and shows up as a flat gradient -- which is already the
+  falsification criterion below, not a separate control arm requirement. "The checkpoint is
+  converged" was never the reason this is sound.
 
   Prediction, stated sign-agnostically: higher shared_count predicts a more FAVOURABLE
   margin CHANGE, not necessarily an increase. Fine-tuning on 100 individuals is itself a
-  narrowing -- a concentrated value set, which is exactly the condition §3.9 found produces
+  narrowing -- a concentrated value set, which is exactly the condition found to produce
   sharp suppression. The remainder's margins may fall rather than rise; if they do, the
   mechanism predicts high-shared_count individuals fall LESS (or rise more), not that they
   rise in absolute terms. A raw first_acc / rank_own_top1 dip in the remainder is also
   tracked as a secondary prediction: celebrities reinforce values already present in A's own
   region, so nothing new competes for the argmax and no suppression-style dip is expected.
   If one appears anyway, that indicates suppression responds to concentration of what's
-  being trained on even when the values are already familiar -- not what §3.9's account
-  currently claims -- and should be flagged prominently, not folded in quietly.
+  being trained on even when the values are already familiar -- not what the current
+  suppression account claims -- and should be flagged prominently, not folded in quietly.
 
   Falsification: a flat shared_count gradient (uniform margin change across all four groups)
   means the benefit/cost isn't flowing through shared components, and the mechanism doesn't
@@ -58,9 +57,9 @@ PRE-REGISTRATION (settled before this ran; do not revise after seeing results)
   0.1, and the baseline gap (-0.029) needs clearing by roughly that much to be convincing.
   Report intervals at every checkpoint, not just means (see analyze_celebrity_result.py).
 
-  Analysis-side (not this script): overlap_with_A (§3.11's intrinsic-crowding regressor,
-  same formula) is included as a covariate, since a randomly-chosen celebrity subset means
-  an individual's chance of sharing with it is proportional to how common their name parts
+  Analysis-side (not this script): overlap_with_A (the intrinsic-crowding regressor, same
+  formula) is included as a covariate, since a randomly-chosen celebrity subset means an
+  individual's chance of sharing with it is proportional to how common their name parts
   are in A generally -- "shares with celebrities" and "has common name parts" are correlated
   by construction and need separating. Ballast (never fine-tuned, its own chance-level
   overlap with the celebrity subset) is the specificity control: if the remainder shows a

@@ -297,7 +297,7 @@ def combined():
     y_lo = min(min(e.y0 for e in ext), axb.transData.transform((0, SETS_ARROW_END))[1])
     p = axb.get_position()
     axb.set_position([p.x0, p.y0 + ((top + bot) / 2 - (y_hi + y_lo) / 2) / fig.bbox.height, p.width, p.height])
-    # the phases, on A's curve (paper.tex: collapse, recovery, erosion)
+    # the phases, on A's curve (collapse, recovery, erosion)
     a = A.mean(0); i = int(a.argmin()); j = i + int(a[i:].argmax())
     k = i + int(np.argmin(abs(a[i:j] - (a[i] + a[j]) / 2))); e = int(np.argmin(abs(st - 400)))
     kw = dict(color="0.45", style="italic", fontsize=5, ha="left", va="center",

@@ -1,4 +1,4 @@
-"""Evaluation sets for A and B, and the rank pools (llm/PLAN.md §7).
+"""Evaluation sets for A and B, and the rank pools.
 
 A comes from the gate and is read out with CounterFact's own cloze probe, fed verbatim -- no
 system prompt, no instruction wrapper, no chat template. B comes from build_b.py and is read out

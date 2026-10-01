@@ -1,10 +1,10 @@
-"""Which attention heads write the constant shift `c`? (FINDINGS §3.17, §3.21)
+"""Which attention heads write the constant shift `c`?
 
 WHY THIS RATHER THAN ANOTHER FREEZE ARM. Freezing conflates two roles a component may play:
 it is where the shift on A gets *written*, or it is where B's facts get *stored*. A component
 doing the second throttles B, and since the shift is *caused* by B's learning, a throttled arm
 shows no crash and no recovery -- exactly what a component doing the first would produce. That
-is what makes the attention arm uninterpretable (FINDINGS §2.6): its B reaches ceiling at step
+is what makes the attention arm uninterpretable: its B reaches ceiling at step
 830 against baseline's ~135. **This script measures the write instead of removing the writer.**
 It runs on existing checkpoints with no training, so B learns exactly as in baseline and the
 confound cannot arise.
@@ -25,14 +25,14 @@ both as a projection share `<c_h, c> / ||c||^2` (signed, sums to 1 over all comp
 cancellation is visible) and as `||c_h||`. Sorted, with cumulative shares.
 
 PRE-REGISTERED EXPECTATION, recorded before running so a flat result is not read as a failed
-measurement. §3.17 found no single parameter group necessary for recovery, which is weak prior
-evidence for a DISTRIBUTED write. If the share is spread roughly evenly across all heads, that
-is the finding -- the mechanism lives in attention's OV path distributed rather than in a
-circuit -- and head patching would isolate nothing. Only a concentrated distribution makes
+measurement. The freeze arms found no single parameter group necessary for recovery, which is
+weak prior evidence for a DISTRIBUTED write. If the share is spread roughly evenly across all
+heads, that is the finding -- the mechanism lives in attention's OV path distributed rather than
+in a circuit -- and head patching would isolate nothing. Only a concentrated distribution makes
 Step 2 worth running.
 
 FRAMING. This attributes what heads WRITE (their OV contribution), not where they attend.
-§3.18's pattern measurement and the Q/K arm both rule out routing. A result here is
+The pattern measurement and the Q/K arm both rule out routing. A result here is
 "these heads' OV contribution carries the constant shift", never a routing circuit.
 
 Run (one invocation per seed):

@@ -1,10 +1,10 @@
-"""The two-process decomposition, measured on OLMo 2 1B itself (Figure 1, option D).
+"""The two-process decomposition, measured on OLMo 2 1B itself.
 
 THE QUESTION. Is the LLM's crash-and-recovery produced by a shift that every old fact receives
 in common, and its erosion by what each fact receives on its own? In the small transformer and
 the minimal model the answer is yes (delta / epsilon). In OLMo the curve was shown to reproduce
-(FINDINGS 3.20) and the mechanism was never tested; the LLM's crash also moves the within-pool
-rank, which a pure common shift would not. This run tests it directly.
+and the mechanism was never tested; the LLM's crash also moves the within-pool rank, which a pure
+common shift would not. This run tests it directly.
 
 WHAT IS MEASURED, at every eval step, for every old fact a (the A set of llm/inject.py):
     x_a(t)   the state the unembedding reads: the base model's last_hidden_state at the

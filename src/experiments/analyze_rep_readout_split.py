@@ -1,11 +1,12 @@
 """Does the constant component's 38% fall live in the READOUT or in A's REPRESENTATION?
 
-`docs/shift_decomposition.md` established that injection's individual-independent logit
-shift `c(t)` peaks at the trough and falls 37.9% by the recovery peak, and that the readout
-BIAS carries none of it. But `c(t)` depends on both the readout weights and A's pre-readout
-representation, and a logit-level split cannot separate those. This splits at a different
-seam: the parameter tree is `{input_layer, backbone, head}`, so `input_layer + backbone` is
-the representation and `head` is the readout, and the two can be crossed.
+The shift decomposition (analyze_shift_decomposition.py) established that injection's
+individual-independent logit shift `c(t)` peaks at the trough and falls 37.9% by the recovery
+peak, and that the readout BIAS carries none of it. But `c(t)` depends on both the readout
+weights and A's pre-readout representation, and a logit-level split cannot separate those. This
+splits at a different seam: the parameter tree is `{input_layer, backbone, head}`, so
+`input_layer + backbone` is the representation and `head` is the readout, and the two can be
+crossed.
 
 Four parameter combinations per checkpoint, all exact (the head is a plain `nn.Dense`, so
 `z = rep @ K + b` and every combination is a valid forward pass):
@@ -86,9 +87,9 @@ def splice(rep_params, read_params):
 
 def analyze(arm, pretrain_step, seed, condition, checkpoint_dir, total_steps,
             freeze_arm=None):
-    """`freeze_arm` selects the freeze-ablation checkpoints (toy/PLAN.md 0.13) instead of
-    the baseline injection ones. Those were written by mlpfree_freeze_injection.py under a
-    different phase, key and filename prefix, so all three have to be switched together --
+    """`freeze_arm` selects the freeze-ablation checkpoints instead of the baseline injection
+    ones. Those were written by mlpfree_freeze_injection.py under a different phase, key and
+    filename prefix, so all three have to be switched together --
     the key is what makes them distinct checkpoints rather than a filename convention."""
     spec = dict(ARMS[arm])
     if freeze_arm is not None:

@@ -7,17 +7,16 @@ THE X-AXIS IS B'S ACCURACY, NOT THE STEP, and that is the whole point. Without b
 is never trained during pretraining, and in `disjoint` B draws from half Y -- so B's value
 tokens start cold and B is acquired 3.6x more slowly (ceiling at step 360 against 100). Plotting
 against step would compare the arms at points where different amounts of B have been learned,
-which is the confound CLAUDE.md SS4 and FINDINGS SS2.6 are about. Everything established since
-SS3.19 says the damage tracks B's acquisition rather than the step count, so B's own accuracy is
-the axis that matches the arms.
+which is a confound. The damage tracks B's acquisition rather than the step count, so B's own
+accuracy is the axis that matches the arms.
 
 `--xaxis step` gives the step version anyway, because the timing difference is itself a result
 and hiding it would be its own distortion.
 
 THE ARM IS CONFOUNDED BY CONSTRUCTION AND THAT IS WHY IT EXISTS. "No ballast" is not a clean
 manipulation of one variable: it necessarily also means B's value tokens are cold. Ballast was
-introduced precisely to remove that confound (CLAUDE.md Q1). This arm shows what the confound
-does when it is left in.
+introduced precisely to remove that confound. This arm shows what the confound does when it is
+left in.
 
 Run: uv run python -m scripts.plot_scale8_ballast_contrast
 """

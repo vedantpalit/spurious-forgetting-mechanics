@@ -1,5 +1,5 @@
 """Raw first-token accuracy by shared_count group, for the graded key-overlap
-construction (FINDINGS.md §3.11's follow-up, analyze_graded_key_overlap.py).
+construction (follow-up to analyze_graded_key_overlap.py).
 
 analyze_graded_key_overlap.py already answers the dose-response question, but only for
 rank_own (own-half-restricted damage), and only as printed group-mean tables, never

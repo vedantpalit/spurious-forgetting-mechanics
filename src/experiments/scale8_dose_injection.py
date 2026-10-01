@@ -1,6 +1,6 @@
 """Dose experiment on the STANDARD 8-layer transformer: does the turnover track B's
-acquisition, or the step number? (The MLP-free version is mlpfree_dose_injection.py,
-FINDINGS 3.19; this is the same design on the arm the paper's transformer section uses.)
+acquisition, or the step number? (The MLP-free version is mlpfree_dose_injection.py; this
+is the same design on the arm the paper's transformer section uses.)
 
 THE MANIPULATION IS TIMING, NOT CARDINALITY. Vary B's acquisition speed with two knobs that
 change when discrimination gets written without changing what has to be learned:
@@ -9,7 +9,7 @@ change when discrimination gets written without changing what has to be learned:
     --inject_batch   128 / 256 / 512                          (gradient noise, per-step signal)
 
 The reading is on the eval lines (every 10 steps): A's trough step and B's accuracy at that
-step, per condition -- the small model's Law 1 (toy/THEORY.md section 3). No
+step, per condition -- the small model's Law 1. No
 decomposition pass is needed, so checkpoints are kept to the two ends.
 
 Same populations, pretrained checkpoint and optimiser as scale8_injection.py; 3000 injection

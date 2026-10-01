@@ -1,4 +1,4 @@
-"""Do heads go input-insensitive at the trough? (FINDINGS 3.21, step 2 follow-up)
+"""Do heads go input-insensitive at the trough? (step 2 follow-up)
 
 For each of the 64 heads, split what it writes into the residual at A's value slots into a
 CONSTANT part (the mean across A's prompts) and a VARYING part (the per-prompt remainder) --

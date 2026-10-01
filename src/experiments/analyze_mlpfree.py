@@ -9,12 +9,12 @@ numbers cannot differ because of how they were produced.
 Computes, per (arm, pretrain_step, seed, injection step):
   * A full-vocabulary first-token accuracy   -- the suppression-sensitive readout
   * A own-half MEAN RANK                     -- the erosion-sensitive readout
-  * both, decomposed per attribute           -- CLAUDE.md §4
+  * both, decomposed per attribute
   * fact-level probability on the correct value, per individual, full-vocab AND own-half
-    -- CLAUDE.md §4's house convention: deletion moves mass to zero, coarsening slides the
-    whole distribution left, and a scalar mean averages away exactly that distinction
-  * attention-to-name-token mass per layer   -- the CLAUDE.md §5 stability check, from the
-    sow added to CausalSelfAttention (at a subset of steps; see ATTENTION_STEPS)
+    -- deletion moves mass to zero, coarsening slides the whole distribution left, and a
+    scalar mean averages away exactly that distinction
+  * attention-to-name-token mass per layer   -- a stability check, from the sow added to
+    CausalSelfAttention (at a subset of steps; see ATTENTION_STEPS)
 
 Per-person arrays are kept at (N, 6) so nothing is collapsed before it is saved.
 
@@ -74,8 +74,7 @@ SCHEDULES = {
 
 # Attention capture is far more expensive than the accuracy/rank passes (the sown tensors
 # are (B, H, L, L) with L=195), so it runs on a subsample at a subset of steps: enough to
-# answer "does attention move during injection", which is the §5 question, without building
-# the patching apparatus §5 rules out.
+# answer "does attention move during injection" without building a patching apparatus.
 ATTENTION_STEPS = (0, 50, 200, 1200)
 ATTENTION_PEOPLE = 256
 ATTENTION_BATCH = 32
@@ -162,8 +161,8 @@ def attention_to_name_mass(model, params, ds, pad_id, prompt_len,
     position sits only ~20 columns in -- and under causal masking ~14 of those ~20 visible
     keys ARE the name. The absolute number therefore mixes attributes whose retrieval
     positions see very different amounts of context, and is not interpretable on its own.
-    What this measures is whether the mass MOVES across injection, which is the CLAUDE.md
-    §5 question; the level is not a claim.
+    What this measures is whether the mass MOVES across injection; the level is not a
+    claim.
     """
     n = min(n_people, ds.eval_inputs.shape[0])
     sums, counts = None, 0

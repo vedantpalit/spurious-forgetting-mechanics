@@ -4,7 +4,7 @@
     rms ||eps_a||   the individual remainder
 
 from delta_structure/standard-p16000-disjoint-t1200-seed*.npz (last layer = the readout
-state; the second axis is averaged as in toy_final/k1/wp_nofinalnorm_fig.py), three seeds,
+state; the second axis is averaged), three seeds,
 mean and one sd. A's trough is read from weight_patch/standard-head-acc-*.npz and marked.
 Same figure size, type size and linear x-axis style as the OLMo panel (llm/plot_seeds.py
 --paper); colours match the schematic strip (teal = common, olive = individual).

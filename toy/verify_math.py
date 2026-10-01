@@ -1,24 +1,23 @@
-"""Numerical verification of paper/math.tex on the minimal model. Every claim is checked
+"""Numerical verification of the analysis on the minimal model. Every claim is checked
 against autodiff or against the measured trajectory; nothing is asserted.
 
 THE MODEL.  h = k W,  z = rms(h) U  (or z = h U in the linear arm). Row-vector convention
-here (k is a row, h = k @ W), so math.tex's column-vector statements transpose.
+here (k is a row, h = k @ W), so column-vector statements transpose.
 
 CLAIM 1 -- the common shift on A is the mu-row of Delta W.
     Delta h_a = k_a Delta W and k_a = sqrt(b) mu + sqrt(1-b) g_a, so
         mean_a Delta h_a = sqrt(b) (mu Delta W) + O(1/sqrt(n_A))       [exact: k_bar_A Delta W]
 CLAIM 2 -- the gradient identity for the shared row, against jax.grad:
         mu grad_W L = sum_b <mu, k_b> dL/dh_b                            (exact)
-CLAIM 3 -- the normalizer's split (math.tex eq. split):
+CLAIM 3 -- the normalizer's split:
         dL/dh_b = (sqrt(d)/||h_b||) (p_b - e_b) U^T / n_B  +  (M_b / (n_B ||h_b||)) h_hat_b
     with M_b the confidence margin; the linear arm has only the first term.
 CLAIM 4 -- the sign: <ds/dt, s_hat> never negative in the linear arm; changes sign in the
     normalized arm, at B's onset.
 CLAIM 5 -- the timing: the normalizer's term flips sign when B's mean margin crosses zero;
     the total turns when the term outgrows the plain term.
-CLAIM 6 -- the removing force is proportional to the shift (math.tex, "The removing force
-    is proportional to the shift"): mean_b <h_b - h_b^0, w_hat> = sqrt(b) <s, w_hat>, and
-    sum_b M_b C_b / n_b has the sign of the mean margin.
+CLAIM 6 -- the removing force is proportional to the shift: mean_b <h_b - h_b^0, w_hat> =
+    sqrt(b) <s, w_hat>, and sum_b M_b C_b / n_b has the sign of the mean margin.
 """
 import os; os.environ.setdefault("JAX_PLATFORMS", "cpu")
 import argparse
@@ -106,7 +105,7 @@ def main():
                 fa = -ilr * (coef[:, None] * ta).sum(0)
                 fb = -ilr * (coef[:, None] * tb).sum(0)
                 proj, pa, pb = force @ shat, fa @ shat, fb @ shat
-                # math.tex eq. force is the projection on w_hat (the between-half axis), where
+                # the force identity is the projection on w_hat (the between-half axis), where
                 # the plain term is the writing force Phi_b >= 0; logged next to the s_hat one.
                 projw, paw, pbw = force @ w, fa @ w, fb @ w
 
@@ -142,7 +141,7 @@ def main():
               f"negative at {100 * (sg < 0).mean():.0f}% of checkpoints")
         pw = np.array([r["proj_w"] for r in rec if r["step"] > 0])
         pwp = np.array([r["proj_w_plain"] for r in rec if r["step"] > 0])
-        print(f"  claim 4w on w_hat (math.tex eq. force): total negative at {100 * (pw < 0).mean():.0f}%, "
+        print(f"  claim 4w on w_hat: total negative at {100 * (pw < 0).mean():.0f}%, "
               f"plain/writing term negative at {100 * (pwp < 0).mean():.0f}% (min {pwp.min():+.2e})")
 
         def cross(key, rising):

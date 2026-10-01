@@ -1,4 +1,4 @@
-"""One entry point for the real-entity pipeline (llm_real/PLAN.md).
+"""One entry point for the real-entity pipeline.
 
   fetch-people    login node   post-cutoff biographies -> out/people_raw.json  (no API key)
   build           login node   facts, disjointness, templates -> out/b_real.json

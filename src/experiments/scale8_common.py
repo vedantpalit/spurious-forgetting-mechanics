@@ -13,7 +13,7 @@ NUM_HEADS = 8
 NUM_LAYERS = 8
 MLP_COEFFICIENT = 4  # -> mlp_dim = 2048, matches spec, no separate override needed
 
-BITS_PER_PARAM = 2.0  # Allen-Zhu convention, used literally (FINDINGS.md §4.5)
+BITS_PER_PARAM = 2.0  # Allen-Zhu convention, used literally
 
 
 def verify_architecture(params, requested_model_dim, requested_num_heads, requested_num_layers):
@@ -50,13 +50,13 @@ def verify_architecture(params, requested_model_dim, requested_num_heads, reques
 
 
 def occupancy(n_params, n_people, pop_num_values_per_attr):
-    """Exact formula and constants from FINDINGS.md §4.5, unchanged for comparability
-    with the pilot's ~2.09% figure: occupancy = (N * A * L_base_bits) / (P * 2), where
-    N = population being stored (A+ballast only, matching §4.5's own choice -- B and C
-    are deliberately excluded, carried forward unchanged, not revisited here), A = number
-    of attributes, L_base_bits = mean log|V| in nats converted to bits (x 1/ln(2)), P =
-    total model parameters, and 2 is the Allen-Zhu bits-per-parameter constant used
-    literally.
+    """Exact formula and constants of the earlier capacity estimate, unchanged for
+    comparability with the pilot's ~2.09% figure: occupancy = (N * A * L_base_bits) / (P * 2),
+    where N = population being stored (A+ballast only, matching the earlier estimate's own
+    choice -- B and C are deliberately excluded, carried forward unchanged, not revisited
+    here), A = number of attributes, L_base_bits = mean log|V| in nats converted to bits
+    (x 1/ln(2)), P = total model parameters, and 2 is the Allen-Zhu bits-per-parameter
+    constant used literally.
     """
     log_v_nats = np.log(np.asarray(pop_num_values_per_attr, dtype=np.float64))
     l_base_bits = float(log_v_nats.mean()) / np.log(2.0)
