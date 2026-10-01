@@ -14,7 +14,7 @@
         old- and new-fact accuracy with the readout trained (paper_base.json, n1) and frozen
         (paper_base_u0.json, n1; its rate re-matched so the new facts are learned by the same step).
 
-Run: uv run --frozen python plot_app_figs.py   (from toy_final_iclr/)
+Run: uv run --frozen python plot_app_figs.py   (from toy/)
 """
 import json
 import os

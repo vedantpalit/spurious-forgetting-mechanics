@@ -47,7 +47,7 @@ FIG_WIDTH = 397 / 72                                  # the paper's text width, 
 
 
 def set_default_style():
-    """Figures 1-3's style (toy_final_iclr/plot_fig3.py)."""
+    """Figures 1-3's style (toy/plot_fig3.py)."""
     import matplotlib as mpl
     mpl.rcParams.update({
         "lines.linewidth": 1, "lines.markersize": 3, "font.family": "serif",

@@ -32,7 +32,7 @@ This repository contains the code for all experiments in the paper, at three sca
 
 | Setting | Framework | Code |
 | --- | --- | --- |
-| Minimal model (associative memory) | JAX | [`toy_final_iclr/`](toy_final_iclr) |
+| Minimal model (associative memory) | JAX | [`toy/`](toy) |
 | Transformer on synthetic biographies | JAX / Flax | [`src/`](src), [`scripts/`](scripts) |
 | Pretrained language model (OLMo 2 1B) | PyTorch | [`llm/`](llm), [`llm_real/`](llm_real) |
 
@@ -59,7 +59,7 @@ Run all commands from the repository root unless stated otherwise. The JAX comma
 Collapse, recovery and erosion of the old facts in the associative memory:
 
 ```bash
-cd toy_final_iclr
+cd toy
 python paper_base_runs.py --seeds 0-9 --out paper_base.json
 python plot_paper_base.py
 ```

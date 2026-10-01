@@ -53,7 +53,7 @@ def load(cond):
     if SOURCE == "toy":
         import json
         tag = {"all_values": "allvalues", "disjoint": "model"}[cond]
-        rs = [v for v in json.load(open("toy_final_iclr/fig1_toy.json")).values() if v["tag"] == tag]
+        rs = [v for v in json.load(open("toy/fig1_toy.json")).values() if v["tag"] == tag]
         steps = np.array([x["step"] for x in rs[0]["rows"]]); keep = steps <= XMAX
         get = lambda k: np.array([[x[k] for x in r["rows"]] for r in rs])[:, keep]
         return steps[keep], get("A_p"), get("D_p"), get("B_p"), len(rs)
