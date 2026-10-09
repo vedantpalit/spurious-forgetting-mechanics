@@ -7,11 +7,12 @@
 <sup>1</sup>MPI for Intelligent Systems, Tübingen &nbsp; <sup>2</sup>University of Toronto & Vector Institute &nbsp; <sup>3</sup>EuroSafeAI<br>
 <sup>4</sup>Hector Foundation &nbsp; <sup>5</sup>Stanford University &nbsp; <sup>6</sup>ELLIS Institute Tübingen
 
-[![arXiv](https://img.shields.io/badge/arXiv-coming%20soon-b31b1b.svg)](#citation)
+[![arXiv](https://img.shields.io/badge/arXiv-2610.08718-b31b1b.svg)](https://arxiv.org/abs/2610.08718v1)
 [![Python](https://img.shields.io/badge/python-3.10%2B-3776ab.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![JAX](https://img.shields.io/badge/JAX-0.4-a259ff.svg)](https://github.com/jax-ml/jax)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.4%2B-ee4c2c.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![uv](https://img.shields.io/badge/managed%20with-uv-de5fe9.svg)](https://docs.astral.sh/uv/)
+
 
 </div>
 
@@ -89,10 +90,13 @@ Select the CounterFact facts OLMo 2 1B already knows (the old facts), build the 
 For questions, contact Vedant Palit (vedant.palit@tuebingen.mpg.de). If you find this work useful, please cite:
 
 ```bibtex
-@article{palit2026forgetting,
-  title   = {When Forgetting Is Not Catastrophic: On the Mechanics of Spurious Forgetting},
-  author  = {Palit, Vedant and Draye, Florent and Zucchet, Nicolas and Jin, Zhijing and Sch{\"o}lkopf, Bernhard},
-  journal = {arXiv preprint arXiv:XXXX.XXXXX},
-  year    = {2026}
+@misc{palit2026forgettingcatastrophicmechanicsspurious,
+  title         = {When Forgetting is not Catastrophic: On the Mechanics of Spurious Forgetting},
+  author        = {Vedant Palit and Florent Draye and Nicolas Zucchet and Zhijing Jin and Bernhard Schölkopf},
+  year          = {2026},
+  eprint        = {2610.08718},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url           = {https://arxiv.org/abs/2610.08718}
 }
 ```
