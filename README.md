@@ -22,9 +22,10 @@
 
 <p align="center"><em>
 Changing only the finetuning data turns catastrophic forgetting into spurious forgetting.
-A transformer is pretrained on two non-overlapping sets of facts, A and B, then finetuned on new facts only, without replay.
-<b>Left:</b> new facts C overlap with both old sets, and recall of A and B declines slowly and steadily.
-<b>Right:</b> new facts B′ overlap only with B; recall of A collapses, recovers although A is never seen again, and later erodes.
+A transformer is pretrained on two non-overlapping sets of facts, A and B, then finetuned on new facts only, without any replay.
+Solid lines show recall of the old facts A; dotted lines show recall of the new facts.
+<b>Left:</b> the new facts C overlap with both pretraining sets, and recall of A declines slowly and steadily.
+<b>Right:</b> the new facts B′ overlap only with B; recall of A collapses, recovers although A is never seen again, and later erodes.
 </em></p>
 
 **TL;DR.** Finetuning on new facts can produce forgetting that undoes itself: recall of the old facts collapses, recovers as training continues on the new facts alone, and only then erodes for good. The collapse is a shared, reversible shift that hides all old facts together; the erosion is a slow, fact-specific drift, and only the second is catastrophic. We identify the mechanism in a minimal associative memory and confirm it with interventions in a transformer trained on synthetic biographies and in OLMo 2 1B.
