@@ -17,7 +17,7 @@
 </div>
 
 <p align="center">
-  <img src="assets/post1.gif" alt="Finetuning on new facts: two runs of the same model" width="100%">
+  <img src="assets/post1_no_title.gif" alt="Finetuning on new facts: two runs of the same model" width="100%">
 </p>
 
 <p align="center"><em>
